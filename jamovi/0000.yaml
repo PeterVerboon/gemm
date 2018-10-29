@@ -1,0 +1,18 @@
+---
+title: Moderated mediation with covariates
+name: gemm
+version: 0.0.0.9000
+jms: '1.0'
+authors: []
+maintainer: '(no maintainer, sorry)'
+date: '1970-01-01'
+type: R
+description: What the package does (one paragraph).
+analyses:
+  - title: Moderated mediation
+    name: modmed
+    ns: gemm
+    menuGroup: semMed
+    menuTitle: Moderated mediation
+
+...
