@@ -20,7 +20,7 @@
 
 simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotomous,
                               modLevels, path = NULL, digits = 3) {
-
+  
   xmin <- min(data[,xvar], na.rm = TRUE)
   xmax <- max(data[,xvar], na.rm = TRUE)
   miny <- min(data[,yvar], na.rm = TRUE)

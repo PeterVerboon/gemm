@@ -10,15 +10,15 @@ moderatedMediationSem(data = NULL, xvar, mvars, yvar, xmmod = NULL,
 \arguments{
 \item{data}{data frame}
 
-\item{xvar}{predictor variable}
+\item{xvar}{predictor variable, must be either numerical or dichotomous}
 
 \item{mvars}{vector of names of mediator variables}
 
-\item{yvar}{dependent variable}
+\item{yvar}{dependent variable, must be numerical}
 
-\item{xmmod}{moderator of effect predictor on mediators}
+\item{xmmod}{moderator of effect predictor on mediators, must be either numerical or dichotomous}
 
-\item{mymod}{moderator of effect mediators on dependent variable}
+\item{mymod}{moderator of effect mediators on dependent variable, must be either numerical or dichotomous}
 
 \item{cmvars}{covariates for mediators}
 

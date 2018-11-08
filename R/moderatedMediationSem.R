@@ -3,11 +3,11 @@
 #' Analyze moderated mediation model using SEM
 #'
 #' @param data data frame
-#' @param xvar predictor variable
+#' @param xvar predictor variable, must be either numerical or dichotomous
 #' @param mvars vector of names of mediator variables
-#' @param yvar dependent variable
-#' @param xmmod moderator of effect predictor on mediators
-#' @param mymod moderator of effect mediators on dependent variable
+#' @param yvar dependent variable, must be numerical
+#' @param xmmod moderator of effect predictor on mediators, must be either numerical or dichotomous
+#' @param mymod moderator of effect mediators on dependent variable, must be either numerical or dichotomous
 #' @param cmvars covariates for mediators
 #' @param cyvars covariates for dependent variable
 #' @param nboot number of bootstrap samples
@@ -41,15 +41,25 @@ moderatedMediationSem <- function(data = NULL,
 
   res$intermediate$numberOfMediators <-
     nm <- length(mvars);
+  
+  ## check if predictor is dichotomous factor 
+  if (is.factor(data[,xvar])) {
+      if (nlevels(data[,xvar]) == 2) {
+        data[,xvar] <- as.numeric(data[,xvar])
+        res$intermediate$data <- data
+      } else {
+        return("Predictor is a factor with more than two levels")
+      }
+  }
 
   ## check if there is a moderator for the x - m path
   if (!is.null(xmmod)) {
     if (length(xmmod) > 1) {
-      stop("This function can only handle one moderator for the x-m path.");
+      return("This function can only handle one moderator for the x-m path.");
     }
     if (is.factor(data[,xmmod])) {
       if (nlevels(data[,xmmod]) > 2) {
-        stop("This function can not yet deal with categorical moderators with more than two levels.");
+        return("This function can not yet deal with categorical moderators with more than two levels.");
       } else {
         res$intermediate$xdichotomous <-
           xdichotomous <- TRUE;
@@ -73,11 +83,11 @@ moderatedMediationSem <- function(data = NULL,
   ### check if there is a moderator for the m - y path;
   if (!is.null(mymod)) {
     if (length(mymod) > 1) {
-      stop("This function can only handle one moderator for the m-y path.");
+      return("This function can only handle one moderator for the m-y path.");
     }
     if (is.factor(data[,mymod])) {
       if (nlevels(data[,mymod]) > 2) {
-        stop("This function can not yet deal with categorical moderators with more than two levels.");
+        return("This function can not yet deal with categorical moderators with more than two levels.");
       }
       else {
         res$intermediate$ydichotomous <-
@@ -201,7 +211,7 @@ print.moderatedMediationSem <- function(x, ..., digits=2) {
 #'
 plot.moderatedMediationSem <- function(x,...,digits = 3) {
 
-  data <- x$input$data
+  data <- x$intermediate$data
   xmmod <- x$input$xmmod
   mymod <- x$input$mymod
   xvar <- x$input$xvar
@@ -211,7 +221,6 @@ plot.moderatedMediationSem <- function(x,...,digits = 3) {
 
   if ((!length(xmmod)) & (!length(mymod)))
             return(cat("No plots can be given, because no moderators have been specified"))
-
 
   ## test if moderator exists for x=m path and if it is dichotomous factor
   if (length(xmmod)) {
@@ -226,7 +235,7 @@ plot.moderatedMediationSem <- function(x,...,digits = 3) {
         xdichotomous <- TRUE;
       }
     }
-    simpleSlopes(data=data, xvar="x1", yvar = "y1", mod = xmmod, mvars = mvars, parEst = parEst, vorw = "w",
+    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, vorw = "w",
                  int = "im",vdichotomous = xdichotomous, modLevels = xmodLevels, path = "x-m")
   }
 
@@ -243,7 +252,7 @@ plot.moderatedMediationSem <- function(x,...,digits = 3) {
         ydichotomous <- TRUE;
       }
     }
-    simpleSlopes(data=data, xvar="x1", yvar = "y1", mod = mymod, mvars = mvars, parEst = parEst, vorw = "v",
+    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, vorw = "v",
                  int = "iy",vdichotomous = ydichotomous, modLevels = ymodLevels, path = "m-y")
   }
 
