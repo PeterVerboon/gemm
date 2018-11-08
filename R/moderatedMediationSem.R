@@ -38,6 +38,7 @@ moderatedMediationSem <- function(data = NULL,
               output = list());
 
   res$intermediate$dataName <- as.character(deparse(substitute(data)));
+  res$intermediate$data <- data
 
   res$intermediate$numberOfMediators <-
     nm <- length(mvars);
@@ -218,6 +219,8 @@ plot.moderatedMediationSem <- function(x,...,digits = 3) {
   yvar <- x$input$yvar
   mvars <- x$input$mvars
   parEst <- x$intermediate$parameterEstimates
+  
+  head(data)
 
   if ((!length(xmmod)) & (!length(mymod)))
             return(cat("No plots can be given, because no moderators have been specified"))

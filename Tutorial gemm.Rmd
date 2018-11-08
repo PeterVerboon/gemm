@@ -46,7 +46,7 @@ data("gemmDat")          # loads the data
 
 ```
 The data have simple and obvious variable names: x and y for the predictor and dependent variable, respectively. The "m" with a number represents mediators and the "c" covariates, numerical moderators start with  "mod" , dichotomous moderators with "bi".
-
+&nbsp;
 #### The mediation model
 
 The first model that will be illustrated is a straightforward mediation model with three mediators, without moderators and without covariates. The number of bootstrap samples is set to 100, a very small number for bootstraps, but here only used for illustration. 
@@ -75,9 +75,7 @@ The fourth part shows the indirect effects. eachh row represent an indirect effe
 Finally, the standardized indirect effects are given, one for each mediator. They represent the completely standardized effect size of the indirect effect.
   
   
-  
-  
-
+&nbsp;
 #### The moderated mediation model
 
 In the next example a moderated mediation model is shown.
@@ -96,6 +94,15 @@ result <- moderatedMediationSem(dat = gemmDat,
 print(result)
 ```
 
+
+Here we have moderator ("bimod2") added to the model. This variable is assumed to moderate the two effects of the two mediators on the dependenet variable. This moderator is a dichotomous moderator, in r terminology a factor with two levels (e.g. male and female). The variables c1 and c2 are used as covariates. They are used two times, first as covariates of the mediators (cmvars) and also as covariates of the dependent variabele (cyvars).
+The structure of the printed output is similar to the previous analyses. However, we can ask for plots now, because the model contains a moderator. The command is simply `plot(result)` to ask for plots. There actually two plot types. The first type plots de index of moderated mediation (Hayes, 2018, p.425) as function of the moderator. The index of moderated mediation (IMM) is the slope of the line representing here the effect of the mediator on the dependent variable that changes when the moderator changes. Because there are two mediators in this model there are also two IMMs. 
+  
+  The second plot type is thr simple slope plot. A simple slope plot shows the effect of the mediator on the dependent variable for usually three characteristic values of the moderator. Each value of the moderator is represented by a separate line. Parallel lines indicate absence of moderation and crossing lines the presence of moderation. Again for each mediator there is a separate plot. 
+  
+```{r model2R, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
+plot(result)
+```
 
 
 
