@@ -11,7 +11,6 @@
 #' @param cmvars covariates for mediators
 #' @param cyvars covariates for dependent variable
 #' @param nboot number of bootstrap samples
-#' @import dplyr
 #'
 #' @return moderatedMediationSem object
 #' @export
@@ -124,19 +123,17 @@ moderatedMediationSem <- function(data = NULL,
     lavaan::inspect(res$intermediate$result, "r2");
 
   ### Extract parameter estimates for direct effects
-  res$intermediate$parameterEstimates <-
+  res$intermediate$parameterEstimates <- r1 <-
     lavaan::parameterestimates(result);
   res$output$parameterEstimates.direct <-
-    dplyr::filter(res$intermediate$parameterEstimates,
-           lhs %in% yvar & rhs %in% xvar)[, -c(1:3)];
+      r1[(r1[,"lhs"] %in% yvar & r1[,"rhs"] %in% xvar),-c(1:3)]
 
   ### ... And for indirect effects
   a2 <- 1:nm;
   ind <- paste0("ind", a2 );
   indinter <- paste0("indinter", a2 );
-  res$output$parameterEstimates.indirect.raw <-
-    dplyr::filter(lavaan::parameterestimates(result),
-           lhs %in% c(ind,indinter, "total"))[, -c(1:3)];
+  res$output$parameterEstimates.indirect.raw <- 
+      r1[(r1[,"lhs"] %in% c(ind,indinter, "total")),-c(1:3)]
 
   ### ... And the standardized indirect effects
    aa <- lavaan::lavInspect(result, "std")$beta[yvar,mvars] * lavaan::lavInspect(result, "std")$beta[mvars, xvar];
