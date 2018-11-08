@@ -58,7 +58,14 @@ intervals are plotted.}
 A results object containing:
 \tabular{llllll}{
   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
+  \code{results$rsq} \tab \tab \tab \tab \tab a table containing the explained variances \cr
 }
+
+Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+
+\code{results$rsq$asDF}
+
+\code{as.data.frame(results$rsq)}
 }
 \description{
 Moderated mediation

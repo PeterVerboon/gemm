@@ -1,13 +1,13 @@
 Package: gemm
 Title: Moderated mediation with covariates
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Version: 0.0.1
+Authors@R: person("Peter", "Verboon", email = "Peter.Verboon@ou.nl", role = c("aut", "cre"))
+Description: Moderated mediation with covariates using SEM (lavaan)
 Depends: R (>= 3.4.1)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.0.9000
 Imports: dplyr,
     knitr,
     ggplot2,
