@@ -45,8 +45,8 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
 
   title <- paste0("Simple slopes in ", path , " path for indirect effect ")
 
-  cat("\n","Simple slopes in ", path , " path(s) for indirect effect ", "\n")
-  cat(" ---------------------------------------------", "\n" );
+ # cat("\n","Simple slopes in ", path , " path(s) for indirect effect ", "\n")
+ # cat(" ---------------------------------------------", "\n" );
 
   for (i in 1:length(mvars)) {
 
@@ -73,8 +73,8 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
         geom_point(size=.5) + geom_line() +
         coord_cartesian(ylim=c(-0.5, 0.5)) +
         scale_y_continuous(breaks=seq(-0.5, 0.5, 0.1)) +
-        ggtitle(paste0("Index of mediation for ",mvars[i])) +
-        ylab("Index of Mediation") +
+        ggtitle(paste0("Index of moderated mediation for ",mvars[i])) +
+        ylab("Index of moderated mediation") +
         xlab(paste0("Moderator: ",mod))
 
       print(plot_indexOfmediation)
