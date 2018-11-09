@@ -38,7 +38,7 @@ The function ` moderatedMediationSem() ` calls the functions `buildModMedSemMode
 The required parameters of the function ` moderatedMediationSem() ` can be found by typing `?moderatedMediationSem`.
 This gives the help page of the function. The data that will be used to illustrate the model are included in the package and are in the R object `gemmDat`, which can be loaded by `data("gemmDat")`. After loading the data, you can also learn more about the data by using the question mark.
 
-```{r chunk2, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
+```{r chunk2, eval=FALSE, echo = TRUE, include = TRUE, warning = FALSE}
 
 ?moderatedMediationSem   # shows the help page of the function
 data("gemmDat")          # loads the data

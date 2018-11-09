@@ -80,15 +80,13 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
       print(plot_indexOfmediation)
     }
 
-    cat( paste0("\n", "Simple slopes in ", path , " path(s) through mediator: ", mvars[i]), "\n");
     tableRes <- matrix(c(round(sort(as.numeric(slopemin)), digits = digits),
                          round(sort(as.numeric(slopemax)), digits = digits)),
                          nrow = 2, byrow = TRUE)
     colnames(tableRes) <- c("ci.lower", "est", "ci.upper")
     rownames(tableRes) <- c(minLabel, maxLabel)
-    #print(tableRes, digits = 3, quote = FALSE, row.names = TRUE)
-    knitr::kable(tableRes)
-
+    print(tableRes, digits = 3, quote = FALSE, row.names = TRUE)
+    
     pred <- rep(0,4)
     pred[1] <- incmin  + slopemin[2] * xmin;
     pred[2] <- incmin + slopemin[2] * xmax;
