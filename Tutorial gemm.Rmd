@@ -46,7 +46,10 @@ data("gemmDat")          # loads the data
 
 ```
 The data have simple and obvious variable names: x and y for the predictor and dependent variable, respectively. The "m" with a number represents mediators and the "c" covariates, numerical moderators start with  "mod" , dichotomous moderators with "bi".
+
 &nbsp;
+
+
 #### The mediation model
 
 The first model that will be illustrated is a straightforward mediation model with three mediators, without moderators and without covariates. The number of bootstrap samples is set to 100, a very small number for bootstraps, but here only used for illustration. 
@@ -76,6 +79,7 @@ Finally, the standardized indirect effects are given, one for each mediator. The
   
   
 &nbsp;
+
 #### The moderated mediation model
 
 In the next example a moderated mediation model is shown.
@@ -96,13 +100,14 @@ print(result)
 
 
 Here we have moderator ("bimod2") added to the model. This variable is assumed to moderate the two effects of the two mediators on the dependenet variable. This moderator is a dichotomous moderator, in r terminology a factor with two levels (e.g. male and female). The variables c1 and c2 are used as covariates. They are used two times, first as covariates of the mediators (cmvars) and also as covariates of the dependent variabele (cyvars).
-The structure of the printed output is similar to the previous analyses. However, we can ask for plots now, because the model contains a moderator. The command is simply `plot(result)` to ask for plots. There actually two plot types. The first type plots de index of moderated mediation (Hayes, 2018, p.425) as function of the moderator. The index of moderated mediation (IMM) is the slope of the line representing the effect of the mediator (c.q. predictor) on the dependent variable (c.q. mediator) that changes when the moderator changes. When there are two mediators in the model there are also two IMMs. A flat horizonal line indicates that the slope does not change as a function of the supposed moderator, in that case there is no moderation. This plot is only given for numerical moderators, non-dichotomous moderators.
-  
-  The second plot type is the simple slope plot. A simple slope plot shows the effect of the mediator on the dependent variable for usually three characteristic values of the moderator. Each value of the moderator is represented by a separate line. Parallel lines indicate absence of moderation and crossing lines the presence of moderation. Again for each mediator there is a separate plot. 
+The structure of the printed output is similar to the previous analyses. However, we can ask for plots now, because the model contains a moderator. The command is simply `plot(result)` to ask for plots. There actually are two plot types. The first type plots de index of moderated mediation (Hayes, 2018, p.425) as function of the moderator. The index of moderated mediation (IMM) is the slope of the line representing the effect of the mediator (c.q. predictor) on the dependent variable (c.q. mediator) that changes when the moderator changes. When there are two mediators in the model there are also two IMMs. A flat horizonal line indicates that the slope does not change as a function of the supposed moderator, in that case there is no moderation. This plot is only given for numerical, non-dichotomous moderators.
+The second plot type is the simple slope plot. A simple slope plot shows the indirect effect of the predictor on the dependent variable through a mediator for usually three characteristic values of the moderator. Each value of the moderator is represented by a separate line. Parallel lines indicate absence of moderation and crossing lines the presence of moderation. For each mediator a separate plot is given. 
   
 ```{r model2R, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
 plot(result)
 ```
+
+These plots show the effect of the predictor on the dependent variable through the mediators m1 and m2, respectively. Because the moderator is a dichotomous variable each plot contains two lines, one for each category of the moderator.
 
 &nbsp;
 As a final example we illustrate the use of a numerical moderator.
