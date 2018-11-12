@@ -259,7 +259,7 @@ plot.moderatedMediationSem <- function(x,...,digits = 3) {
                  int = "iy",vdichotomous = ydichotomous, modLevels = ymodLevels, path = "m-y")
   }
 
-  return(cat("\n Plots are succesfully created"))
+  return(cat("Plots are succesfully created"))
 
 }  # end function
 
