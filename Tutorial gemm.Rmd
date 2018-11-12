@@ -17,6 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 In this tutorial the function  ` moderatedMediationSem() ` is described for the analysis of moderated mediation models. The function is an alternative for the (SPSS or SAS) PROCESS macro developped by Hayes (2018). The ` moderatedMediationSem ` is in the R package ` gemm `. This package can be installed from Github and then loaded using the `library()` function: 
 
 ` devtools::install_github("PeterVerboon/gemm") ` 
+   
 ` library(gemm) `. 
 
 
@@ -64,7 +65,7 @@ result <- moderatedMediationSem(dat = gemmDat,
                                 nboot = 100)
 ```
 
-The parameter "xvar" represents the predictor, "yvar" the dependent variable and "mvars" a vector of mediators. The results of the analysis is put the object "result". Except for nboot, these parameters are all obligatory to specify. This implies that you cannot run a simple regression model with this function.
+The parameter "xvar" represents the predictor, "yvar" the dependent variable and "mvars" a vector of mediators. The result of the analysis is put in the object "result". Except for nboot, these parameters are all obligatory to specify. This implies that you cannot run a simple regression model with this function.
 The results can be viewed by typing: ` print(result)`.
 
 ```{r model1R, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
@@ -132,7 +133,7 @@ The plot command provides four plots, for each mediator a plot of the IMM and a 
 
 ####  Additional output
 
-The results object is a list of three elements, which are named input, intermediate, and results, respectively. Input contains the original data and all variable names used in the analysis. Intermediate contains results that have been computed in the functions. For instance the object `results$intermediate$model ` contains the model specification that was used by lavaan, the object `results$intermediate$result ` contains the output of lavaan. You can inspect this output by loading the package lavaan and then using 'summary(results$intermediate$result)'. All other lavaan extract functions can be used on this object. The object 'res$intermediate$parameterEstimates' contains all estimated parameters from lavaan. 
+The results object is a list of three elements, which are named input, intermediate, and results, respectively. Input contains the original data and all variable names used in the analysis. Intermediate contains results that have been computed in the functions. For instance the object `results$intermediate$model ` contains the model specification that was used by lavaan, the object `results$intermediate$result ` contains the output of lavaan. You can inspect this output by loading the package lavaan and then using `summary(results$intermediate$result)`. All other lavaan extract functions can be used on this object. The object `res$intermediate$parameterEstimates` contains all estimated parameters from lavaan. 
 
 
 
