@@ -1,0 +1,108 @@
+---
+title             : "Tutorial of moderated mediation with SEM: the gemm package"
+shorttitle        : "Tutorial gemm"
+
+author: 
+  - name          : "Peter Verboon"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "P.O.Box 2960,  6401 DL  Heerlen"
+    email         : "Peter.Verboon@ou.nl"
+  - name          : "Gjalt-Jorn Peters "
+    affiliation   : "1 "
+
+affiliation:
+  - id            : "1"
+    institution   : "Open University"
+
+authornote: |
+  
+abstract: |
+  Moderated mediation analysis assumes that the effect of a predictor on a dependent variable is mediated by one or more mediators and that the indirect paths in this mediation are moderated. Moderation can take place on the effect of the predictor on the mediators, or on the effect of the mediators on the dependent variable.   
+  In this tutorial we will show how the package "gemm" can be used to do a moderated mediation analysis.
+  
+keywords          : "moderated mediation SEM"
+#wordcount         : "X"
+
+bibliography      : ["Refs_gemm.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : no
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+
+## Introduction
+Moderated mediation analysis assumes that the effect of a predictor on a dependent variable is mediated by one or more mediators and that the indirect paths in this mediation are moderated. Moderation can take place on the effect of the predictor on the mediators, or on the effect of the mediators on the dependent variable. In this tutorial the function  ` moderatedMediationSem() ` is described for the analysis of moderated mediation models. The function is an alternative for the (SPSS or SAS) PROCESS macro developped by Hayes [@Hayes2018]. The ` moderatedMediationSem ` is in the R package ` gemm `. This package can be installed from Github and then loaded using the `library()` function: 
+
+` devtools::install_github("PeterVerboon/gemm") ` 
+` library(gemm) `. 
+
+
+```{r chunk1, eval=TRUE, echo = FALSE, include = FALSE, warning = FALSE}
+
+library(gemm)
+
+```
+
+&nbsp;
+
+An illustration of the moderated mediation model, for which the function can be applied, is shown in Figure 1. The figure represents a structural model, linking the observed variables to each other. We are therefore using the SEM software to fit the moderated mediation model. To this end we use the lavaan package [@Rosseel2012]. Figure 1 shows the most general situation, with several mediators, several covariates for the mediators and several covariates for the dependent variable. There are also two moderators in this model, one for the paths from the predictor to the mediators and one for the paths from the mediators to the dependent variabele.
+
+![Figure 1. Moderated mediation model](Slide1.png)
+
+The function ` moderatedMediationSem() ` calls the functions `buildModMedSemModel()`, which is also in the gemm package and which builds the requested SEM model. After running the function ` moderatedMediationSem() ` there are two methods available that are designed to handle the results: `plot()` and `print()`. These functions will be illustrated in this tutorial.
+
+## Examples
+The required parameters of the function ` moderatedMediationSem() ` can be found by typing `?moderatedMediationSem`.
+This gives the help page of the function. The data that will be used to illustrate the model are included in the package and are in the R object `gemmDat`, which can be loaded by `data("gemmDat")`. After loading the data, you can also learn more about the data by using the question mark.
+
+```{r chunk2, eval=FALSE, echo = TRUE, include = TRUE, warning = FALSE}
+
+?moderatedMediationSem   # shows the help page of the function
+data("gemmDat")          # loads the data
+?gemmDat                 # shows the desciption page of the data
+
+```
+The data have simple and obvious variable names: x and y for the predictor and dependent variable, respectively. The "m" with a number represents mediators and the "c" covariates, numerical moderators start with  "mod" , dichotomous moderators with "bi".
+
+## Data analysis
+We used `r cite_r("Refs_gemm.bib")` for all our analyses.
+
+
+# Results
+
+# Discussion
+
+
+\newpage
+
+# References
+```{r create_references}
+r_refs(file = "Refs_gemm.bib")
+```
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id = "refs"></div>
+\endgroup
