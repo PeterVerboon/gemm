@@ -48,6 +48,14 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
  # cat("\n","Simple slopes in ", path , " path(s) for indirect effect ", "\n")
  # cat(" ---------------------------------------------", "\n" );
 
+  plotData <- data.frame(yIom=numeric(), moderator = numeric(), mediator = factor())
+  moderator <- c(min(data[,mod]),max(data[,mod])) 
+  
+  plotDat2 <- data.frame(yv=numeric(), xv=numeric(), mov=numeric(),mev=factor())
+  xv <- c(xmin,xmax,xmin,xmax)
+  mov <- c(modmin, modmin, modmax, modmax)
+  
+  
   for (i in 1:length(mvars)) {
 
     incmin <- vw*modmin
@@ -67,25 +75,19 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
       maxLabel <- c("for 1 sd above mean of moderator: ")
       data$moderator <- data[,mod]
 
-      data$indexOfMed1 <- a[i]*b[i] + vw[i]*int[i,2]*data[,mod]
+      yIom <- a[i]*b[i] + vw[i]*int[i,2]*moderator
+      mediator <- c(mvars[i],mvars[i])
+      plotDat0 <- data.frame(yIom,moderator,mediator);
+      plotData <- rbind(plotData,plotDat0)
 
-      plot_indexOfmediation <- ggplot(data, aes(x=data$moderator,y=data$indexOfMed1)) +
-        geom_point(size=.5) + geom_line() +
-        coord_cartesian(ylim=c(-0.5, 0.5)) +
-        scale_y_continuous(breaks=seq(-0.5, 0.5, 0.1)) +
-        ggtitle(paste0("Index of moderated mediation for ",mvars[i])) +
-        ylab("Index of moderated mediation") +
-        xlab(paste0("Moderator: ",mod))
-
-      print(plot_indexOfmediation)
     }
 
-    tableRes <- matrix(c(round(sort(as.numeric(slopemin)), digits = digits),
-                         round(sort(as.numeric(slopemax)), digits = digits)),
-                         nrow = 2, byrow = TRUE)
-    colnames(tableRes) <- c("ci.lower", "est", "ci.upper")
-    rownames(tableRes) <- c(minLabel, maxLabel)
-    print(tableRes, digits = 3, quote = FALSE, row.names = TRUE)
+    # tableRes <- matrix(c(round(sort(as.numeric(slopemin)), digits = 3),
+    #                      round(sort(as.numeric(slopemax)), digits = 3)),
+    #                      nrow = 2, byrow = TRUE)
+    # colnames(tableRes) <- c("ci.lower", "est", "ci.upper")
+    # rownames(tableRes) <- c(minLabel, maxLabel)
+    # print(tableRes, digits = 3, quote = FALSE, row.names = TRUE)
     
     pred <- rep(0,4)
     pred[1] <- incmin  + slopemin[2] * xmin;
@@ -94,23 +96,46 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
     pred[4] <- incmax  + slopemax[2] * xmax
     pred <- unlist(pred)
 
-    plotdat1 <- as.data.frame(cbind(pred, c(xmin,xmax,xmin,xmax), c(modmin, modmin, modmax, modmax)))
-    colnames(plotdat1) <- c(yvar, xvar, mod)
-    plotdat1[,mod] <- as.factor(plotdat1[,mod])
+    plotDat1 <- data.frame(cbind(yv = pred, xv = xv))
+    
+    plotDat1$mov <- as.factor(round(mov,1))                      
+    plotDat1$mev <- as.factor(rep(mvars[i],4))
+    
+    plotDat2 <- rbind(plotDat2,plotDat1)
+    
+  
 
-    plot_simpleSlopes <- ggplot(plotdat1, aes(x=plotdat1[,xvar],y=plotdat1[,yvar],
-                                colour=plotdat1[,mod],group = plotdat1[,mod])) +
-      geom_point() + geom_line() +
-      labs(x = xvar, y = yvar) +
-      ylim(min(miny,min(plotdat1[,1])), max(maxy,max(plotdat1[,1]))) +
-      ggtitle(paste0(title, mvars[i])) +
-      theme(plot.title = ggplot2::element_text(lineheight=.8, face="bold")) +
-      scale_colour_discrete(name  = mod, labels=legendLabel)
+     }  # loop mvars
+  
+  if (!vdichotomous) {
+    
+    names(plotData) <- c('IMM', mod, "mediator")
 
-     print(plot_simpleSlopes)
-
-     }
-
+    plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
+       geom_point(size=.5) + geom_line() +
+       coord_cartesian(ylim=c(-0.5, 0.5)) +
+       scale_y_continuous(breaks=seq(-0.5, 0.5, 0.1)) +
+       ggtitle("Index of moderated mediation") +
+       xlab(paste0("Moderator: ",mod))
+  
+    print(plot_indexOfmediation)
+  }
+  
+    names(plotDat2) <- c(yvar, xvar, mod, "mediator")
+  
+    plot_simpleSlopes <- ggplot(plotDat2, aes_string(x=xvar,y=yvar,group= mod, colour=mod)) +
+       geom_point() + geom_line() +
+       #labs(x = xvar, y = yvar) +
+       ylim(min(miny,min(plotDat2[,1])), max(maxy,max(plotDat2[,1]))) +
+       theme(plot.title = ggplot2::element_text(lineheight=.8, face="bold")) +
+       scale_colour_discrete(name  = mod, labels=legendLabel) 
+       
+      plot_simpleSlopes <- plot_simpleSlopes + facet_grid(rows=vars(mediator))
+  
+    print(plot_simpleSlopes)
+  
+  
+  
   return()
 
 } # end function
