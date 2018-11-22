@@ -113,8 +113,8 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
 
     plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
        geom_point(size=.5) + geom_line() +
-       coord_cartesian(ylim=c(-0.5, 0.5)) +
-       scale_y_continuous(breaks=seq(-0.5, 0.5, 0.1)) +
+       coord_cartesian(ylim=c(-0.6, 0.6)) +
+       scale_y_continuous(breaks=seq(-0.6, 0.6, 0.1)) +
        ggtitle("Index of moderated mediation") +
        xlab(paste0("Moderator: ",mod))
   
@@ -128,6 +128,7 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
        #labs(x = xvar, y = yvar) +
        ylim(min(miny,min(plotDat2[,1])), max(maxy,max(plotDat2[,1]))) +
        theme(plot.title = ggplot2::element_text(lineheight=.8, face="bold")) +
+       ggtitle(paste0("Simple slopes in ", path , " path for indirect effect ")) +
        scale_colour_discrete(name  = mod, labels=legendLabel) 
        
       plot_simpleSlopes <- plot_simpleSlopes + facet_grid(rows=vars(mediator))
