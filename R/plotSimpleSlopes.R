@@ -113,8 +113,8 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
 
     plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
        geom_point(size=.5) + geom_line() +
-       coord_cartesian(ylim=c(-0.6, 0.6)) +
-       scale_y_continuous(breaks=seq(-0.6, 0.6, 0.1)) +
+       coord_cartesian(ylim=c(-1.0, 1.0)) +
+       scale_y_continuous(breaks=seq(-1, 1, 0.2)) +
        ggtitle("Index of moderated mediation") +
        xlab(paste0("Moderator: ",mod))
   
