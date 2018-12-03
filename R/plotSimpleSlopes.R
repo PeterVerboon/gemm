@@ -8,60 +8,64 @@
 #' @param mod moderator name
 #' @param mvars vector of mediators names
 #' @param parEst parameter estimates from lavaan results
-#' @param vorw character ("v" or "w") indicating for which path the simple slopes should be computed.
-#' @param int estimate of interaction
 #' @param vdichotomous indicates whether moderator is dichotomous (TRUE)
 #' @param modLevels levels of dichotomous moderator
 #' @param path which path is used
-#' @param digits number of digits displayed
 #' @import ggplot2
 #' @return empty, directly plots all simple slopes and all indices of mediation
 #' @export
 
-simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotomous,
-                              modLevels, path = NULL, digits = 3) {
+simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
+                              modLevels, path = NULL) {
   
-  xmin <- min(data[,xvar], na.rm = TRUE)
-  xmax <- max(data[,xvar], na.rm = TRUE)
-  miny <- min(data[,yvar], na.rm = TRUE)
-  maxy <- max(data[,yvar], na.rm = TRUE)
-
+  xquant <- quantile(data[,xvar], c(.16,.84))
+  yquant <- quantile(data[,yvar], c(.10, .90))
+  
   # compute simple slopes
 
     if (vdichotomous) {
-      modmin <- 0;
-      modmax <- 1
+       modquant <- c(0,1)
     } else {
-      modmin <- mean(data[,mod]) - stats::sd(data[,mod]);
-      modmax <- mean(data[,mod]) + stats::sd(data[,mod]);
+       modquant <- quantile(data[,mod], c(.16,.84))
     }
 
+  if (path == "x-m") {
+    vorw <- "w"
+    inter <- "im"
+    modmed <- "modmedx"
+  } else {
+    vorw <- "v"
+    inter <- "iy"
+    modmed <- "modmedm"
+  }
+  
   a <- subset(parEst, grepl("a1", parEst$label))[,"est"]
   b <- subset(parEst, grepl("b", parEst$label))[,"est"]
+  ind <- subset(parEst, grepl("ind", parEst$label))[,c("ci.lower","est","ci.upper")]
+  
   vw <- subset(parEst, grepl(vorw, parEst$label))[,"est"]
-  int <- subset(parEst, grepl(int, parEst$label))[,c("ci.lower","est","ci.upper")]
-
+  int <- subset(parEst, grepl(inter, parEst$label))[,c("ci.lower","est","ci.upper")]
+  mm <- subset(parEst, grepl(modmed, parEst$label))[,c("ci.lower","est","ci.upper")]
+  
+  
   if (vorw == "v") vw <- rep(vw,length(mvars))
 
-  title <- paste0("Simple slopes in ", path , " path for indirect effect ")
-
- # cat("\n","Simple slopes in ", path , " path(s) for indirect effect ", "\n")
- # cat(" ---------------------------------------------", "\n" );
-
-  plotData <- data.frame(yIom=numeric(), moderator = numeric(), mediator = factor())
-  moderator <- c(min(data[,mod]),max(data[,mod])) 
+  # initialize data for index mediated moderation
+ 
+  plotData <- data.frame(X1 = numeric(),X2 = numeric(),X3 = numeric(), 
+                         moderator = numeric(), 
+                         mediator = factor())
+  moderator <- data[,mod]
+  
+  # initialize data for mediated simple slopes
   
   plotDat2 <- data.frame(yv=numeric(), xv=numeric(), mov=numeric(),mev=factor())
-  xv <- c(xmin,xmax,xmin,xmax)
-  mov <- c(modmin, modmin, modmax, modmax)
-  
+  xv <-  c(xquant[1],xquant[1],xquant[2],xquant[2])
+  mov <- c(modquant,modquant)
+ 
+  # loop over mediators 
   
   for (i in 1:length(mvars)) {
-
-    incmin <- vw*modmin
-    slopemin <- a[i]*b[i] + vw[i]*int[i,]*modmin
-    incmax  <- vw*modmax
-    slopemax <- a[i]*b[i] + vw[i]*int[i,]*modmax
 
     if (vdichotomous) {
       legendLabel <- modLevels
@@ -70,13 +74,15 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
       maxLabel <- stringr::str_pad(modLevels[2],maxLab, pad = " ")
     }
     else {
-      legendLabel <- c("1 SD below mean", "1 SD above mean")
-      minLabel <- c("for 1 sd below mean of moderator: ")
-      maxLabel <- c("for 1 sd above mean of moderator: ")
-      data$moderator <- data[,mod]
+      legendLabel <- c("16th percentile", "84th percentile")
+      minLabel <- c("for 16th percentile of moderator: ")
+      maxLabel <- c("for 84th percentile of moderator: ")
+      moderator <- data[,mod]
 
-      yIom <- a[i]*b[i] + vw[i]*int[i,2]*moderator
-      mediator <- c(mvars[i],mvars[i])
+   # index of moderated mediation
+      
+      yIom <- a[i]*b[i] + data[,mod] %o% as.numeric(mm[i,])
+      mediator <- rep(mvars[i],nrow(data))
       plotDat0 <- data.frame(yIom,moderator,mediator);
       plotData <- rbind(plotData,plotDat0)
 
@@ -89,45 +95,48 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vorw, int, vdichotom
     # rownames(tableRes) <- c(minLabel, maxLabel)
     # print(tableRes, digits = 3, quote = FALSE, row.names = TRUE)
     
-    pred <- rep(0,4)
-    pred[1] <- incmin  + slopemin[2] * xmin;
-    pred[2] <- incmin + slopemin[2] * xmax;
-    pred[3] <- incmax  + slopemax[2] * xmin;
-    pred[4] <- incmax  + slopemax[2] * xmax
-    pred <- unlist(pred)
 
-    plotDat1 <- data.frame(cbind(yv = pred, xv = xv))
+  # mediated simple slopes   
     
+    pred1 <- b[i]*vw*modquant  + (as.numeric(modquant) %o% as.numeric(mm[i,]))*xquant[1]
+    pred2 <- b[i]*vw*modquant  + (as.numeric(modquant) %o% as.numeric(mm[i,]))*xquant[2]
+    pred <- rbind(pred1, pred2)
+    plotDat1 <- data.frame(cbind(pred, xv = xv))
     plotDat1$mov <- as.factor(round(mov,1))                      
     plotDat1$mev <- as.factor(rep(mvars[i],4))
     
     plotDat2 <- rbind(plotDat2,plotDat1)
     
-  
-
      }  # loop mvars
+  
   
   if (!vdichotomous) {
     
-    names(plotData) <- c('IMM', mod, "mediator")
+      names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
+      ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant)
+      ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant)
 
-    plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
-       geom_point(size=.5) + geom_line() +
-       coord_cartesian(ylim=c(-1.0, 1.0)) +
-       scale_y_continuous(breaks=seq(-1, 1, 0.2)) +
+      plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
+       geom_line(aes(colour = mediator, group = mediator)) +      
+       coord_cartesian(ylim=c(ymin, ymax)) +
        ggtitle("Index of moderated mediation") +
        xlab(paste0("Moderator: ",mod))
-  
-    print(plot_indexOfmediation)
+      
+      plot_indexOfmediation <- plot_indexOfmediation + 
+        geom_ribbon(aes(ymin=IMM_lwr, ymax=IMM_upr), alpha=.3, linetype=0) 
+    
+      print(plot_indexOfmediation)
   }
   
-    names(plotDat2) <- c(yvar, xvar, mod, "mediator")
-  
+    names(plotDat2) <- c("lwr",yvar,"upr", xvar, mod, "mediator")
+    ymin <- min(plotDat2$yvar, plotDat2$lwr,plotDat2$upr, yquant)
+    ymax <- max(plotDat2$yvar, plotDat2$lwr,plotDat2$upr, yquant)
+    
     plot_simpleSlopes <- ggplot(plotDat2, aes_string(x=xvar,y=yvar,group= mod, colour=mod)) +
        geom_point() + geom_line() +
-       #labs(x = xvar, y = yvar) +
-       ylim(min(miny,min(plotDat2[,1])), max(maxy,max(plotDat2[,1]))) +
-       theme(plot.title = ggplot2::element_text(lineheight=.8, face="bold")) +
+       geom_ribbon(aes(ymin=lwr, ymax=upr),alpha=.3, linetype=0) +
+       ylim(ymin,ymax) +
+       theme(plot.title = ggplot2::element_text(lineheight=.4, face="italic")) +
        ggtitle(paste0("Simple slopes in ", path , " path for indirect effect ")) +
        scale_colour_discrete(name  = mod, labels=legendLabel) 
        

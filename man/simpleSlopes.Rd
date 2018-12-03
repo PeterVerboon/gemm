@@ -4,8 +4,8 @@
 \alias{simpleSlopes}
 \title{Makes simple slop plots of moderatedMediationSem object}
 \usage{
-simpleSlopes(data, xvar, yvar, mod, mvars, parEst, vorw, int, vdichotomous,
-  modLevels, path = NULL, digits = 3)
+simpleSlopes(data, xvar, yvar, mod, mvars, parEst, vdichotomous, modLevels,
+  path = NULL)
 }
 \arguments{
 \item{data}{data frame containg the variables of the model}
@@ -20,17 +20,11 @@ simpleSlopes(data, xvar, yvar, mod, mvars, parEst, vorw, int, vdichotomous,
 
 \item{parEst}{parameter estimates from lavaan results}
 
-\item{vorw}{character ("v" or "w") indicating for which path the simple slopes should be computed.}
-
-\item{int}{estimate of interaction}
-
 \item{vdichotomous}{indicates whether moderator is dichotomous (TRUE)}
 
 \item{modLevels}{levels of dichotomous moderator}
 
 \item{path}{which path is used}
-
-\item{digits}{number of digits displayed}
 }
 \value{
 empty, directly plots all simple slopes and all indices of mediation

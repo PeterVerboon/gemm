@@ -4,14 +4,12 @@
 \alias{plot.moderatedMediationSem}
 \title{Makes simple slop plots of moderatedMediationSem object}
 \usage{
-\method{plot}{moderatedMediationSem}(x, ..., digits = 3)
+\method{plot}{moderatedMediationSem}(x, ...)
 }
 \arguments{
 \item{x}{object moderatedMediationSem}
 
 \item{...}{optional}
-
-\item{digits}{number of digits}
 }
 \value{
 simple slope plots for each mediator and simple slopes parameter estimates

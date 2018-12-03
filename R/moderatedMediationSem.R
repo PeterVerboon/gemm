@@ -205,12 +205,11 @@ print.moderatedMediationSem <- function(x, ..., digits=2) {
 #'
 #' @param x   object moderatedMediationSem
 #' @param ... optional
-#' @param digits number of digits
 #'
 #' @return simple slope plots for each mediator and simple slopes parameter estimates
 #' @export
 #'
-plot.moderatedMediationSem <- function(x,...,digits = 3) {
+plot.moderatedMediationSem <- function(x,...) {
 
   data <- x$intermediate$data
   xmmod <- x$input$xmmod
@@ -219,8 +218,6 @@ plot.moderatedMediationSem <- function(x,...,digits = 3) {
   yvar <- x$input$yvar
   mvars <- x$input$mvars
   parEst <- x$intermediate$parameterEstimates
-  
-  head(data)
 
   if ((!length(xmmod)) & (!length(mymod)))
             return(cat("No plots can be given, because no moderators have been specified"))
@@ -238,8 +235,8 @@ plot.moderatedMediationSem <- function(x,...,digits = 3) {
         xdichotomous <- TRUE;
       }
     }
-    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, vorw = "w",
-                 int = "im",vdichotomous = xdichotomous, modLevels = xmodLevels, path = "x-m")
+    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, 
+                 vdichotomous = xdichotomous, modLevels = xmodLevels, path = "x-m")
   }
 
   ## test if moderator exists for m=y path and if it is dichotomous factor
@@ -255,8 +252,8 @@ plot.moderatedMediationSem <- function(x,...,digits = 3) {
         ydichotomous <- TRUE;
       }
     }
-    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, vorw = "v",
-                 int = "iy",vdichotomous = ydichotomous, modLevels = ymodLevels, path = "m-y")
+    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, 
+                 vdichotomous = ydichotomous, modLevels = ymodLevels, path = "m-y")
   }
 
   return(cat("Plots are succesfully created"))
