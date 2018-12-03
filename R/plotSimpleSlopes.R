@@ -18,8 +18,8 @@
 simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
                               modLevels, path = NULL) {
   
-  xquant <- quantile(data[,xvar], c(.16,.84))
-  yquant <- quantile(data[,yvar], c(.10, .90))
+  xquant <- quantile(data[,xvar], c(.16,.84), na.rm = TRUE)
+  yquant <- quantile(data[,yvar], c(.10, .90), na.rm = TRUE)
   
   # compute simple slopes
 
