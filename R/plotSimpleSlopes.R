@@ -19,7 +19,7 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
                               modLevels, path = NULL) {
   
   xquant <- quantile(data[,xvar], c(.16,.84), na.rm = TRUE)
-  yquant <- quantile(data[,yvar], c(.10, .90), na.rm = TRUE)
+  yquant <- quantile(data[,yvar], c(.16,.84), na.rm = TRUE)
   
   # compute simple slopes
 
@@ -60,8 +60,7 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
     legendLabel <- c("16th percentile", "84th percentile")
     minLabel <- c("for 16th percentile of moderator: ")
     maxLabel <- c("for 84th percentile of moderator: ")
-    moderator <- data[,mod]
-    
+  }
 
   # initialize data for index mediated moderation
  
@@ -78,7 +77,7 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
  
   # loop over mediators 
   
-  for (i in 1:length(mvars)) {
+  for (i in seq_along(mvars)) {
 
 
    # index of moderated mediation
@@ -88,7 +87,7 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
       plotDat0 <- data.frame(yIom,moderator,mediator);
       plotData <- rbind(plotData,plotDat0)
 
-    }
+    
 
     # tableRes <- matrix(c(round(sort(as.numeric(slopemin)), digits = 3),
     #                      round(sort(as.numeric(slopemax)), digits = 3)),
