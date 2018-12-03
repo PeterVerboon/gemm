@@ -26,7 +26,7 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
     if (vdichotomous) {
        modquant <- c(0,1)
     } else {
-       modquant <- quantile(data[,mod], c(.16,.84))
+       modquant <- quantile(data[,mod], c(.16,.84), na.rm = TRUE)
     }
 
   if (path == "x-m") {
