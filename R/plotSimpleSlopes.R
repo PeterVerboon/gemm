@@ -113,8 +113,8 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
   if (!vdichotomous) {
     
       names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
-      ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant)
-      ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant)
+      ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
+      ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
 
       plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
        geom_line(aes(colour = mediator, group = mediator)) +      
