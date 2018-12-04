@@ -10,6 +10,7 @@
 #' @param mymod moderator of effect mediators on dependent variable, must be either numerical or dichotomous
 #' @param cmvars covariates for mediators
 #' @param cyvars covariates for dependent variable
+#' @param estMethod estimation of standard errors method, bootstrap is default
 #' @param nboot number of bootstrap samples
 #'
 #' @return moderatedMediationSem object
@@ -31,6 +32,7 @@ moderatedMediationSem <- function(data = NULL,
                                   mymod = NULL,
                                   cmvars = NULL,
                                   cyvars = NULL,
+                                  estMethod = "bootstrap",
                                   nboot = 1000) {
 
   res <- list(input = as.list(environment()),
@@ -125,7 +127,7 @@ moderatedMediationSem <- function(data = NULL,
         data=data,
         fixed.x = FALSE,
         std.lv = TRUE,
-        se="bootstrap",
+        se = estMethod,
         bootstrap=nboot);
 
 
@@ -170,6 +172,8 @@ moderatedMediationSem <- function(data = NULL,
 #' @export
 #'
 print.moderatedMediationSem <- function(x, ..., digits=2) {
+  
+  options(digits = digits)
 
   cat("###   The model contains", length(x$input$mvars),"mediators:",x$input$mvars, "
       and",length(x$input$xmmod), "moderators for the x-m path(s):",x$input$xmmod, "

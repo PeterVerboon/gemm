@@ -5,7 +5,8 @@
 \title{Analyze moderated mediation model using SEM}
 \usage{
 moderatedMediationSem(data = NULL, xvar, mvars, yvar, xmmod = NULL,
-  mymod = NULL, cmvars = NULL, cyvars = NULL, nboot = 1000)
+  mymod = NULL, cmvars = NULL, cyvars = NULL,
+  estMethod = "bootstrap", nboot = 1000)
 }
 \arguments{
 \item{data}{data frame}
@@ -23,6 +24,8 @@ moderatedMediationSem(data = NULL, xvar, mvars, yvar, xmmod = NULL,
 \item{cmvars}{covariates for mediators}
 
 \item{cyvars}{covariates for dependent variable}
+
+\item{estMethod}{estimation of standard errors method, bootstrap is default}
 
 \item{nboot}{number of bootstrap samples}
 }
