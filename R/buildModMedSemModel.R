@@ -170,7 +170,7 @@ buildModMedSemModel <- function(xvar,
     modeli2 <- paste0(modmedm , " := " , v2, " * ", a, collapse = " \n ");
   }
 
-  modelt <- paste0("total"," := " , (paste0(ind,  collapse = " + ")));
+  modelt <- paste0("tot"," := " , (paste0(ind,  collapse = " + ")));
 
   model <- paste0(modela1," \n ",modela2," \n ",
                   modelb1," \n ", modelb2," \n ",
