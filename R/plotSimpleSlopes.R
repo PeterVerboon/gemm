@@ -52,14 +52,14 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
   
   if (vdichotomous) {
     legendLabel <- modLevels
-    maxLab <- max(stringr::str_length(modLevels[1]),stringr::str_length(modLevels[2]))
-    minLabel <- stringr::str_pad(modLevels[1],maxLab, pad = " ")
-    maxLabel <- stringr::str_pad(modLevels[2],maxLab, pad = " ")
+    # maxLab <- max(stringr::str_length(modLevels[1]),stringr::str_length(modLevels[2]))
+    # minLabel <- stringr::str_pad(modLevels[1],maxLab, pad = " ")
+    # maxLabel <- stringr::str_pad(modLevels[2],maxLab, pad = " ")
   }
   else {
     legendLabel <- c("16th percentile", "84th percentile")
-    minLabel <- c("for 16th percentile of moderator: ")
-    maxLabel <- c("for 84th percentile of moderator: ")
+    # minLabel <- c("for 16th percentile of moderator: ")
+    # maxLabel <- c("for 84th percentile of moderator: ")
   }
 
   # initialize data for index mediated moderation
