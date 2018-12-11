@@ -129,6 +129,25 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
       print(plot_indexOfmediation)
   }
   
+  if (vdichotomous) {
+    
+    names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
+    ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
+    ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
+    pd <- position_dodge(0.1)
+    
+    plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
+      geom_point(aes(colour = mediator, group = mediator)) +      
+      coord_cartesian(ylim=c(ymin, ymax)) +
+      ggtitle("Index of moderated mediation") +
+      xlab(paste0("Moderator: ",mod))
+    
+    plot_indexOfmediation <- plot_indexOfmediation + 
+      geom_errorbar(aes(ymin=IMM_lwr, ymax=IMM_upr), colour="black", width=.1, position = pd) 
+    
+    print(plot_indexOfmediation)
+  }
+  
     names(plotDat2) <- c("lwr",yvar,"upr", xvar, mod, "mediator")
     ymin <- min(plotDat2$yvar, plotDat2$lwr,plotDat2$upr, yquant)
     ymax <- max(plotDat2$yvar, plotDat2$lwr,plotDat2$upr, yquant)
