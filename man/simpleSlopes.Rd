@@ -30,5 +30,5 @@ simpleSlopes(data, xvar, yvar, mod, mvars, parEst, vdichotomous, modLevels,
 empty, directly plots all simple slopes and all indices of mediation
 }
 \description{
-Description
+Makes simple slop plots of moderatedMediationSem object
 }

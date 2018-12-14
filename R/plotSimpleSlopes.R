@@ -1,7 +1,5 @@
 #' Makes simple slop plots of moderatedMediationSem object
 #'
-#' Description
-#'
 #' @param data data frame containg the variables of the model
 #' @param xvar predictor variable name
 #' @param yvar depedendent variable name

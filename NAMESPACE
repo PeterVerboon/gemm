@@ -2,7 +2,9 @@
 
 S3method(plot,moderatedMediationSem)
 S3method(print,moderatedMediationSem)
+export(IMM3d)
 export(buildModMedSemModel)
 export(moderatedMediationSem)
+export(plotIIM3d)
 export(simpleSlopes)
 import(ggplot2)
