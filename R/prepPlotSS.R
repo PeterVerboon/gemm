@@ -66,10 +66,10 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
 
   # initialize data for index mediated moderation
  
-  plotData <- data.frame(X1 = numeric(),X2 = numeric(),X3 = numeric(), 
-                         moderator = numeric(), 
-                         mediator = factor())
-  moderator <- as.numeric(data[,mod])
+  # plotData <- data.frame(X1 = numeric(),X2 = numeric(),X3 = numeric(), 
+  #                        moderator = numeric(), 
+  #                        mediator = factor())
+  # moderator <- as.numeric(data[,mod])
   
   # initialize data for mediated simple slopes
   
@@ -83,12 +83,12 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
 
    # index of moderated mediation
       
-        d1 <-  matrix(as.numeric(ind[i,]), nrow = N, ncol=3, byrow = TRUE)  
-        d2 <- (moderator %o% as.numeric(mm[i,]))
-        yIom <- d1+ d2
-      mediator <- rep(mvars[i],nrow(data))
-      plotDat0 <- data.frame(yIom,moderator,mediator);
-      plotData <- rbind(plotData,plotDat0)
+      #   d1 <-  matrix(as.numeric(ind[i,]), nrow = N, ncol=3, byrow = TRUE)  
+      #   d2 <- (moderator %o% as.numeric(mm[i,]))
+      #   yIom <- d1+ d2
+      # mediator <- rep(mvars[i],nrow(data))
+      # plotDat0 <- data.frame(yIom,moderator,mediator);
+      # plotData <- rbind(plotData,plotDat0)
 
     # tableRes <- matrix(c(round(sort(as.numeric(slopemin)), digits = 3),
     #                      round(sort(as.numeric(slopemax)), digits = 3)),
@@ -115,44 +115,44 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
      }  # loop mvars
   
   
-  if (!vdichotomous) {
-    
-      names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
-      ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-      ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-
-      plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
-       geom_line(aes(colour = mediator, group = mediator)) +      
-       coord_cartesian(ylim=c(ymin, ymax)) +
-       ggtitle("Index of moderated mediation") +
-       xlab(paste0("Moderator: ",mod))
-      
-      plot_indexOfmediation <- plot_indexOfmediation + 
-        geom_ribbon(aes(ymin=IMM_lwr, ymax=IMM_upr), alpha=.3, linetype=0) 
-    
-      print(plot_indexOfmediation)
-  }
+  # if (!vdichotomous) {
+  #   
+  #     names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
+  #     ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
+  #     ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
+  # 
+  #     plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
+  #      geom_line(aes(colour = mediator, group = mediator)) +      
+  #      coord_cartesian(ylim=c(ymin, ymax)) +
+  #      ggtitle("Index of moderated mediation") +
+  #      xlab(paste0("Moderator: ",mod))
+  #     
+  #     plot_indexOfmediation <- plot_indexOfmediation + 
+  #       geom_ribbon(aes(ymin=IMM_lwr, ymax=IMM_upr), alpha=.3, linetype=0) 
+  #   
+  #     print(plot_indexOfmediation)
+  # }
   
-  if (vdichotomous) {
-    
-    names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
-    ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-    ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-    pd <- position_dodge(0.1)
-    
-    plotData[,mod] <- as.factor(plotData[,mod])
-    levels(plotData[,mod]) <- legendLabel
-    
-    plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
-      geom_point(aes(colour = mediator), position = pd, size=3) +  
-      geom_errorbar(aes(ymin=IMM_lwr, ymax=IMM_upr), position = pd) +
-      coord_cartesian(ylim=c(ymin, ymax)) +
-      ggtitle("Index of moderated mediation") +
-      xlab(paste0("Moderator: ",mod)) 
-
-    
-    print(plot_indexOfmediation)
-  }
+  # if (vdichotomous) {
+  #   
+  #   names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
+  #   ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
+  #   ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
+  #   pd <- position_dodge(0.1)
+  #   
+  #   plotData[,mod] <- as.factor(plotData[,mod])
+  #   levels(plotData[,mod]) <- legendLabel
+  #   
+  #   plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
+  #     geom_point(aes(colour = mediator), position = pd, size=3) +  
+  #     geom_errorbar(aes(ymin=IMM_lwr, ymax=IMM_upr), position = pd) +
+  #     coord_cartesian(ylim=c(ymin, ymax)) +
+  #     ggtitle("Index of moderated mediation") +
+  #     xlab(paste0("Moderator: ",mod)) 
+  # 
+  #   
+  #   print(plot_indexOfmediation)
+  # }
   
     names(plotDat2) <- c("lwr",yvar,"upr", xvar, mod, "mediator")
     ymin <- min(plotDat2$yvar, plotDat2$lwr,plotDat2$upr, yquant)
@@ -166,11 +166,9 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
        ggtitle(paste0("Simple slopes in ", path , " path for indirect effect ")) +
        scale_colour_discrete(name  = mod, labels=legendLabel) 
        
-      plot_simpleSlopes <- plot_simpleSlopes + facet_grid(rows=vars(mediator))
+    plot_simpleSlopes <- plot_simpleSlopes + facet_grid(rows=vars(mediator))
   
     print(plot_simpleSlopes)
-  
-  
   
   return()
 

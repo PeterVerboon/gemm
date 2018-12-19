@@ -8,7 +8,7 @@
 #' @return simple slope plots for each mediator and simple slopes parameter estimates
 #' @export
 #'
-plotIMM.gemm <- function(x,...) {
+plotIMM <- function(x,...) {
   
   data <- x$intermediate$data
   xmmod <- x$input$xmmod

@@ -6,7 +6,7 @@
 #' @return empty, directly plots all indices of mediation
 #' @export
 
-plotIIM3d.gemm <- function(x, ...) {
+plotIIM3d <- function(x, ...) {
   
   if (x$intermediate$xdichotomous & x$intermediate$ydichotomous) 
      {return("No plots are constructed, because both moderators are dichotomous")}
