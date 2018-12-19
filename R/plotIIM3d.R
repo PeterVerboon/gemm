@@ -40,7 +40,7 @@ plotIIM3d.gemm <- function(x, ...) {
   
   for (i in seq_along(mvars)){
     
-    df <- IMM3d(mm$x, mm$y, parEst = parEst, i=i )
+    df <- prepIMM3d(mm$x, mm$y, parEst = parEst, i=i )
     z <- matrix(df[,2], nrow = length(Modxm), ncol = length(Modmy))
     upzlim <- max(max(z),.4) + .1
     lwzlim <- min(min(z),-.4) - .1
@@ -91,7 +91,7 @@ plotIIM3d.gemm <- function(x, ...) {
 #' @return vector of index of moderated mediation with CI limits for a given mediator
 #' @export
 
-IMM3d <- function(M1, M2, parEst=parEst, i=1) {
+prepIMM3d <- function(M1, M2, parEst=parEst, i=1) {
   
   ind <- subset(parEst, grepl("ind", parEst$label))[,c("ci.lower","est","ci.upper")]
   mmx <- subset(parEst, grepl("modmedx", parEst$label))[,c("ci.lower","est","ci.upper")]
