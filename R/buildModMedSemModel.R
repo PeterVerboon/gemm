@@ -121,6 +121,8 @@ buildModMedSemModel <- function(xvar,
 
   ### initialize indirect effects with mod x on  m path
   modeli1 <- " ";
+  modeli3 <- " ";
+  modeli5 <- " ";
 
   ### initialize indirect effects with mod m on y path
   modeli2 <- " ";
