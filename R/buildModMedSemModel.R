@@ -98,6 +98,8 @@ buildModMedSemModel <- function(xvar,
   ind <- paste0("ind", a2 );
   modmedx <- paste0("modmedx", a2 );
   modmedm <- paste0("modmedm", a2 );
+  bw <- paste0("bw", a2 );
+  gw <- paste0("gw", a2 );
 
   ### initialize path from mod on x - m path
   modela2 <- " ";
@@ -165,6 +167,8 @@ buildModMedSemModel <- function(xvar,
 
   if(!is.null(xmmod)) {
     modeli1 <- paste0(modmedx , " := " , w2, " * ", b, collapse = " \n ");
+    modeli3 <- paste0(bw , " := " , w1, " * ", b, collapse = " \n ");
+    modeli5 <- paste0(gw , " := " , w1, " * ", w2, collapse = " \n ");
   }
   if(!is.null(mymod)) {
     modeli2 <- paste0(modmedm , " := " , v2, " * ", a, collapse = " \n ");
@@ -179,7 +183,7 @@ buildModMedSemModel <- function(xvar,
                   modelv, " \n ", modelv2, " \n ",
                   modelf, " \n ",
                   model_cov1," \n ", model_cov2, " \n ",
-                  modeli, " \n ", modeli1, " \n ", modeli2, " \n ",
+                  modeli, " \n ", modeli1, " \n ", modeli2, " \n ",modeli3, " \n ", modeli5, " \n ",
                   modelt);
 
   return(model)

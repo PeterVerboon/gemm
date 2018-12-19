@@ -38,15 +38,19 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
   }
   
   a <- subset(parEst, grepl("a", parEst$label))[,"est"]
-  b <- subset(parEst, grepl("b", parEst$label))[,"est"]
+  b <- subset(parEst, grepl("b", parEst$label))[,c("ci.lower","est","ci.upper")]
   ind <- subset(parEst, grepl("ind", parEst$label))[,c("ci.lower","est","ci.upper")]
   
-  vw <- subset(parEst, grepl(vorw, parEst$label))[,"est"]
+  vw <- subset(parEst, grepl(vorw, parEst$label))[,c("ci.lower","est","ci.upper")]
   int <- subset(parEst, grepl(inter, parEst$label))[,c("ci.lower","est","ci.upper")]
   mm <- subset(parEst, grepl(modmed, parEst$label))[,c("ci.lower","est","ci.upper")]
   
+  bw <- subset(parEst, grepl("bw", parEst$label))[,c("ci.lower","est","ci.upper")]
+  gw <- subset(parEst, grepl("gw", parEst$label))[,c("ci.lower","est","ci.upper")]
   
-  if (vorw == "v") vw <- rep(vw,length(mvars))
+  N <- dim(data)[1]
+  
+  if (vorw == "v") bw <- (matrix(as.numeric(vw), nrow=length(mvars), ncol = 3, byrow = TRUE ))
   
   if (vdichotomous) {
     legendLabel <- modLevels
@@ -65,7 +69,7 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
   plotData <- data.frame(X1 = numeric(),X2 = numeric(),X3 = numeric(), 
                          moderator = numeric(), 
                          mediator = factor())
-  moderator <- data[,mod]
+  moderator <- as.numeric(data[,mod])
   
   # initialize data for mediated simple slopes
   
@@ -77,15 +81,14 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
   
   for (i in seq_along(mvars)) {
 
-
    # index of moderated mediation
       
-      yIom <- a[i]*b[i] + data[,mod] %o% as.numeric(mm[i,])
+        d1 <-  matrix(as.numeric(ind[i,]), nrow = N, ncol=3, byrow = TRUE)  
+        d2 <- (moderator %o% as.numeric(mm[i,]))
+        yIom <- d1+ d2
       mediator <- rep(mvars[i],nrow(data))
       plotDat0 <- data.frame(yIom,moderator,mediator);
       plotData <- rbind(plotData,plotDat0)
-
-    
 
     # tableRes <- matrix(c(round(sort(as.numeric(slopemin)), digits = 3),
     #                      round(sort(as.numeric(slopemax)), digits = 3)),
@@ -94,11 +97,14 @@ simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
     # rownames(tableRes) <- c(minLabel, maxLabel)
     # print(tableRes, digits = 3, quote = FALSE, row.names = TRUE)
     
-
   # mediated simple slopes   
-    
-    pred1 <- b[i]*vw*modquant  + (as.numeric(modquant) %o% as.numeric(mm[i,]))*xquant[1]
-    pred2 <- b[i]*vw*modquant  + (as.numeric(modquant) %o% as.numeric(mm[i,]))*xquant[2]
+      
+      d1 <-  matrix(as.numeric(ind[i,]), nrow = 2, ncol=3, byrow = TRUE)  
+      d2 <-  (modquant %o% as.numeric(mm[i,]))
+      yIom2 <- d1+ d2
+     
+    pred1 <-  as.numeric(modquant) %o%  as.numeric(bw[i,])  + yIom2*xquant[1]
+    pred2 <-  as.numeric(modquant) %o%  as.numeric(bw[i,])  + yIom2*xquant[2]
     pred <- rbind(pred1, pred2)
     plotDat1 <- data.frame(cbind(pred, xv = xv))
     plotDat1$mov <- as.factor(round(mov,1))                      
