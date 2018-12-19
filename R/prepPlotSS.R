@@ -37,10 +37,7 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
     modmed <- "modmedm"
   }
   
-  a <- subset(parEst, grepl("a", parEst$label))[,"est"]
-  b <- subset(parEst, grepl("b", parEst$label))[,c("ci.lower","est","ci.upper")]
   ind <- subset(parEst, grepl("ind", parEst$label))[,c("ci.lower","est","ci.upper")]
-  
   vw <- subset(parEst, grepl(vorw, parEst$label))[,c("ci.lower","est","ci.upper")]
   int <- subset(parEst, grepl(inter, parEst$label))[,c("ci.lower","est","ci.upper")]
   mm <- subset(parEst, grepl(modmed, parEst$label))[,c("ci.lower","est","ci.upper")]
