@@ -1,29 +1,25 @@
 
-#' Makes plots of Index of moderated mediation of moderatedMediationSem object
+#' Makes 3D plots of Index of Moderated Mediation of gemm object
 #'
-#' @param data data frame containg the moderators
-#' @param xmmod moedraotr of x-m path  
-#' @param mymod moderator of m-y path
-#' @param mvars vector of mediators names
-#' @param res results of moderatedMediationSem function
+#' @param x results of gemm function
+#' @param ... optional
 #' @return empty, directly plots all indices of mediation
 #' @export
-#' @example plotIIM3d(data=gemmDat, xmmod = "mod1", mymod = "mod2", mvars = mvars, res = res)
 
-plotIIM3d <- function(res = res) {
+plotIIM3d.gemm <- function(x, ...) {
   
-  if (res$intermediate$xdichotomous & res$intermediate$ydichotomous) 
+  if (x$intermediate$xdichotomous & x$intermediate$ydichotomous) 
      {return("No plots are constructed, because both moderators are dichotomous")}
     
-  data <- res$intermediate$data 
-  xmmod <- res$input$xmmod
-  mymod <- res$input$mymod
-  mvars <- res$input$mvars
+  data <- x$intermediate$data 
+  xmmod <- x$input$xmmod
+  mymod <- x$input$mymod
+  mvars <- x$input$mvars
   
   
   if (is.null(xmmod)) { return(" moderator x-m path not specified") }
   
-  if (res$intermediate$xdichotomous) {
+  if (x$intermediate$xdichotomous) {
     Modxm  <- c(0,1) 
     modLevels <- levels(data[,xmmod])
   } else {
@@ -32,14 +28,14 @@ plotIIM3d <- function(res = res) {
    
   if (is.null(mymod)) { return(" moderator m-y path not specified") }
   
-  if (res$intermediate$ydichotomous) { 
+  if (x$intermediate$ydichotomous) { 
     Modmy  <- c(0,1) 
     modLevels <- levels(data[,mymod])
     } else {
           Modmy <- quantile(as.numeric(data[,mymod]), c(.10,.20,.40,.60,.80,.90))
      } 
   
-  parEst <- lavaan::parameterestimates(res$intermediate$result)
+  parEst <- lavaan::parameterestimates(x$intermediate$result)
   mm <- expand.grid(x = Modxm, y = Modmy)
   
   for (i in seq_along(mvars)){
@@ -49,7 +45,7 @@ plotIIM3d <- function(res = res) {
     upzlim <- max(max(z),.4) + .1
     lwzlim <- min(min(z),-.4) - .1
 
-    if (!res$intermediate$xdichotomous & !res$intermediate$ydichotomous) { 
+    if (!x$intermediate$xdichotomous & !x$intermediate$ydichotomous) { 
       
     persp(x=Modxm, y = Modmy, z = z, zlab = "IMM", xlab = "Mod1", ylab ="Mod2", 
           main = paste0("Index of Moderated Mediation for mediator: ", mvars[i]),
@@ -60,13 +56,13 @@ plotIIM3d <- function(res = res) {
     
     } else {
     df2 <- cbind(mm,df)
-    if (res$intermediate$xdichotomous) { 
+    if (x$intermediate$xdichotomous) { 
        df2$fac <- df2$x; 
        df2$x <- df2$y; 
        modlab <- xmmod 
        mod <- mymod
        }
-    if (res$intermediate$ydichotomous) { 
+    if (x$intermediate$ydichotomous) { 
        df2$fac <- df2$y; 
        modlab <- mymod 
        mod <- xmmod
@@ -85,7 +81,7 @@ plotIIM3d <- function(res = res) {
 }
 
 
-#' Computes Index of moderated mediation of moderatedMediationSem object
+#' Computes Index of moderated mediation of gemm object
 #'
 #' @param data data frame containg the moderators
 #' @param xmmod moderator of x-m path  

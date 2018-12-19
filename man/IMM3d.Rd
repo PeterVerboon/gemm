@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotIIM3d.R
 \name{IMM3d}
 \alias{IMM3d}
-\title{Computes Index of moderated mediation of moderatedMediationSem object}
+\title{Computes Index of moderated mediation of gemm object}
 \usage{
 IMM3d(M1, M2, parEst = parEst, i = 1)
 }
@@ -11,15 +11,15 @@ IMM3d(M1, M2, parEst = parEst, i = 1)
 
 \item{data}{data frame containg the moderators}
 
-\item{xmmod}{moedraotr of x-m path}
+\item{xmmod}{moderator of x-m path}
 
 \item{mymod}{moderator of m-y path}
 
 \item{mvars}{vector of mediators names}
 }
 \value{
-vector of index of moderated mediation with 95%CI limits for a given mediator
+vector of index of moderated mediation with CI limits for a given mediator
 }
 \description{
-Computes Index of moderated mediation of moderatedMediationSem object
+Computes Index of moderated mediation of gemm object
 }

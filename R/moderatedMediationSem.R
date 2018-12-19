@@ -13,18 +13,18 @@
 #' @param estMethod estimation of standard errors method, bootstrap is default
 #' @param nboot number of bootstrap samples
 #'
-#' @return moderatedMediationSem object
+#' @return gemm object
 #' @export
 #'
 #' @examples
 #' data("gemmDat")
-#' res <- moderatedMediationSem(dat = gemmDat, xvar="x1", mvars= c("m1","m2","m3"),
+#' res <- gemm(dat = gemmDat, xvar="x1", mvars= c("m1","m2","m3"),
 #'        yvar = "y1", xmmod = "mod1", mymod= "bimod2",
 #'        cmvars =c("c1","c2"), cyvars =c("c1","c2"), nboot=50)
 #' print(res)
 #' plot(res)
 
-moderatedMediationSem <- function(data = NULL,
+                 gemm <- function(data = NULL,
                                   xvar,
                                   mvars,
                                   yvar,
@@ -153,9 +153,7 @@ moderatedMediationSem <- function(data = NULL,
    names(aa) <- mvars
    res$output$parameterEstimates.indirect.standardized <- aa
 
-
-
-  class(res) <- "moderatedMediationSem";
+  class(res) <- "gemm";
 
   return(res);
 
@@ -163,15 +161,15 @@ moderatedMediationSem <- function(data = NULL,
 
 
 
-#' print method of object of class moderatedMediationSem
+#' print method of object of class gemm
 #'
-#' @param x object of class moderatedMediationSem
+#' @param x object of class gemm
 #' @param ... additional pars
 #' @param digits  number of digits
 #'
 #' @export
 #'
-print.moderatedMediationSem <- function(x, ..., digits=2) {
+print.gemm <- function(x, ..., digits=2) {
   
   options(digits = digits)
 
@@ -213,58 +211,58 @@ print.moderatedMediationSem <- function(x, ..., digits=2) {
 #' @return simple slope plots for each mediator and simple slopes parameter estimates
 #' @export
 #'
-plot.moderatedMediationSem <- function(x,...) {
-
-  data <- x$intermediate$data
-  xmmod <- x$input$xmmod
-  mymod <- x$input$mymod
-  xvar <- x$input$xvar
-  yvar <- x$input$yvar
-  mvars <- x$input$mvars
-  parEst <- x$intermediate$parameterEstimates
-
-  if ((!length(xmmod)) & (!length(mymod)))
-            return(cat("No plots can be given, because no moderators have been specified"))
-
-  ## test if moderator exists for x=m path and if it is dichotomous factor
-  if (length(xmmod)) {
-    xdichotomous <- FALSE
-    if (is.factor(data[,xmmod])) {
-      if (length(levels(data[,xmmod])) > 2) {
-        stop("This function can not yet plot moderation with a moderator (x-m path) that is a factor with more than two levels.");
-      }
-      else {
-        xmodLevels <- levels(data[,xmmod]);
-        data[,xmmod] <- as.numeric(data[,xmmod]) - 1;
-        xdichotomous <- TRUE;
-      }
-    }
-    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, 
-                 vdichotomous = xdichotomous, modLevels = xmodLevels, path = "x-m")
-  }
-
-  ## test if moderator exists for m=y path and if it is dichotomous factor
-
-  if (length(mymod)) {
-    ydichotomous <- FALSE
-    if (is.factor(data[,mymod])) {
-      if (length(levels(data[,mymod])) > 2) {
-        stop("This function can not yet plot moderation with a moderator (x-y path) that is a factor with more than two levels.")}
-      else {
-        ymodLevels <- levels(data[,mymod]);
-        data[,mymod] <- as.numeric(data[,mymod]) - 1;
-        ydichotomous <- TRUE;
-      }
-    }
-    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, 
-                 vdichotomous = ydichotomous, modLevels = ymodLevels, path = "m-y")
-  }
-
-  return(cat("Plots are succesfully created"))
-
-}  # end function
-
-
+# plot.moderatedMediationSem <- function(x,...) {
+# 
+#   data <- x$intermediate$data
+#   xmmod <- x$input$xmmod
+#   mymod <- x$input$mymod
+#   xvar <- x$input$xvar
+#   yvar <- x$input$yvar
+#   mvars <- x$input$mvars
+#   parEst <- x$intermediate$parameterEstimates
+# 
+#   if ((!length(xmmod)) & (!length(mymod)))
+#             return(cat("No plots can be given, because no moderators have been specified"))
+# 
+#   ## test if moderator exists for x=m path and if it is dichotomous factor
+#   if (length(xmmod)) {
+#     xdichotomous <- FALSE
+#     if (is.factor(data[,xmmod])) {
+#       if (length(levels(data[,xmmod])) > 2) {
+#         stop("This function can not yet plot moderation with a moderator (x-m path) that is a factor with more than two levels.");
+#       }
+#       else {
+#         xmodLevels <- levels(data[,xmmod]);
+#         data[,xmmod] <- as.numeric(data[,xmmod]) - 1;
+#         xdichotomous <- TRUE;
+#       }
+#     }
+#     simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, 
+#                  vdichotomous = xdichotomous, modLevels = xmodLevels, path = "x-m")
+#   }
+# 
+#   ## test if moderator exists for m=y path and if it is dichotomous factor
+# 
+#   if (length(mymod)) {
+#     ydichotomous <- FALSE
+#     if (is.factor(data[,mymod])) {
+#       if (length(levels(data[,mymod])) > 2) {
+#         stop("This function can not yet plot moderation with a moderator (x-y path) that is a factor with more than two levels.")}
+#       else {
+#         ymodLevels <- levels(data[,mymod]);
+#         data[,mymod] <- as.numeric(data[,mymod]) - 1;
+#         ydichotomous <- TRUE;
+#       }
+#     }
+#     simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, 
+#                  vdichotomous = ydichotomous, modLevels = ymodLevels, path = "m-y")
+#   }
+# 
+#   return(cat("Plots are succesfully created"))
+# 
+# }  # end function
+# 
+# 
 
 
 

@@ -1,6 +1,6 @@
 
 
-#' Makes simple slop plots of moderatedMediationSem object
+#' Makes simple slope plots of gemm object
 #'
 #' @param x   object moderatedMediationSem
 #' @param ... optional
@@ -8,7 +8,7 @@
 #' @return simple slope plots for each mediator and simple slopes parameter estimates
 #' @export
 #'
-plotSS <- function(x,...) {
+plotSS.gemm <- function(x,...) {
   
   data <- x$intermediate$data
   xmmod <- x$input$xmmod
@@ -34,7 +34,7 @@ plotSS <- function(x,...) {
         xdichotomous <- TRUE;
       }
     }
-    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, 
+    prepPlotSS(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, 
                  vdichotomous = xdichotomous, modLevels = xmodLevels, path = "x-m")
   }
   
@@ -51,11 +51,11 @@ plotSS <- function(x,...) {
         ydichotomous <- TRUE;
       }
     }
-    simpleSlopes(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, 
+    prepPlotSS(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, 
                  vdichotomous = ydichotomous, modLevels = ymodLevels, path = "m-y")
   }
   
-  return(cat("Plots are succesfully created"))
+  invisible()
   
 }  # end function
 

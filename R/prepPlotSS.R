@@ -1,4 +1,4 @@
-#' Makes simple slop plots of moderatedMediationSem object
+#' Makes simple slope plots 
 #'
 #' @param data data frame containg the variables of the model
 #' @param xvar predictor variable name
@@ -13,7 +13,7 @@
 #' @return empty, directly plots all simple slopes and all indices of mediation
 #' @export
 
-simpleSlopes <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
+prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
                               modLevels, path = NULL) {
   
   xquant <- quantile(data[,xvar], c(.16,.84), na.rm = TRUE)
