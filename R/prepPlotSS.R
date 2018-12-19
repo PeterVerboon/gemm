@@ -54,22 +54,10 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
   
   if (vdichotomous) {
     legendLabel <- modLevels
-    # maxLab <- max(stringr::str_length(modLevels[1]),stringr::str_length(modLevels[2]))
-    # minLabel <- stringr::str_pad(modLevels[1],maxLab, pad = " ")
-    # maxLabel <- stringr::str_pad(modLevels[2],maxLab, pad = " ")
   }
   else {
     legendLabel <- c("16th percentile", "84th percentile")
-    # minLabel <- c("for 16th percentile of moderator: ")
-    # maxLabel <- c("for 84th percentile of moderator: ")
   }
-
-  # initialize data for index mediated moderation
- 
-  # plotData <- data.frame(X1 = numeric(),X2 = numeric(),X3 = numeric(), 
-  #                        moderator = numeric(), 
-  #                        mediator = factor())
-  # moderator <- as.numeric(data[,mod])
   
   # initialize data for mediated simple slopes
   
@@ -81,24 +69,6 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
   
   for (i in seq_along(mvars)) {
 
-   # index of moderated mediation
-      
-      #   d1 <-  matrix(as.numeric(ind[i,]), nrow = N, ncol=3, byrow = TRUE)  
-      #   d2 <- (moderator %o% as.numeric(mm[i,]))
-      #   yIom <- d1+ d2
-      # mediator <- rep(mvars[i],nrow(data))
-      # plotDat0 <- data.frame(yIom,moderator,mediator);
-      # plotData <- rbind(plotData,plotDat0)
-
-    # tableRes <- matrix(c(round(sort(as.numeric(slopemin)), digits = 3),
-    #                      round(sort(as.numeric(slopemax)), digits = 3)),
-    #                      nrow = 2, byrow = TRUE)
-    # colnames(tableRes) <- c("ci.lower", "est", "ci.upper")
-    # rownames(tableRes) <- c(minLabel, maxLabel)
-    # print(tableRes, digits = 3, quote = FALSE, row.names = TRUE)
-    
-  # mediated simple slopes   
-      
       d1 <-  matrix(as.numeric(ind[i,]), nrow = 2, ncol=3, byrow = TRUE)  
       d2 <-  (modquant %o% as.numeric(mm[i,]))
       yIom2 <- d1+ d2
@@ -114,46 +84,7 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
     
      }  # loop mvars
   
-  
-  # if (!vdichotomous) {
-  #   
-  #     names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
-  #     ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-  #     ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-  # 
-  #     plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
-  #      geom_line(aes(colour = mediator, group = mediator)) +      
-  #      coord_cartesian(ylim=c(ymin, ymax)) +
-  #      ggtitle("Index of moderated mediation") +
-  #      xlab(paste0("Moderator: ",mod))
-  #     
-  #     plot_indexOfmediation <- plot_indexOfmediation + 
-  #       geom_ribbon(aes(ymin=IMM_lwr, ymax=IMM_upr), alpha=.3, linetype=0) 
-  #   
-  #     print(plot_indexOfmediation)
-  # }
-  
-  # if (vdichotomous) {
-  #   
-  #   names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
-  #   ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-  #   ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-  #   pd <- position_dodge(0.1)
-  #   
-  #   plotData[,mod] <- as.factor(plotData[,mod])
-  #   levels(plotData[,mod]) <- legendLabel
-  #   
-  #   plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
-  #     geom_point(aes(colour = mediator), position = pd, size=3) +  
-  #     geom_errorbar(aes(ymin=IMM_lwr, ymax=IMM_upr), position = pd) +
-  #     coord_cartesian(ylim=c(ymin, ymax)) +
-  #     ggtitle("Index of moderated mediation") +
-  #     xlab(paste0("Moderator: ",mod)) 
-  # 
-  #   
-  #   print(plot_indexOfmediation)
-  # }
-  
+
     names(plotDat2) <- c("lwr",yvar,"upr", xvar, mod, "mediator")
     ymin <- min(plotDat2$yvar, plotDat2$lwr,plotDat2$upr, yquant)
     ymax <- max(plotDat2$yvar, plotDat2$lwr,plotDat2$upr, yquant)

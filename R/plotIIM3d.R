@@ -48,7 +48,7 @@ plotIIM3d <- function(x, ...) {
     if (!x$intermediate$xdichotomous & !x$intermediate$ydichotomous) { 
       
     persp(x=Modxm, y = Modmy, z = z, zlab = "IMM", xlab = "Mod1", ylab ="Mod2", 
-          main = paste0("Index of Moderated Mediation for mediator: ", mvars[i]),
+          main = paste0("Index of Moderated Mediation of ab-path for mediator: ", mvars[i]),
           theta = 30, phi = 30,axes = TRUE, scale = TRUE, zlim = c(lwzlim,upzlim),
           ticktype = "detailed",nticks = 4,
           cex.lab = .8, cex.axis = .5, col = "lightgrey", shade = 0.3, 
