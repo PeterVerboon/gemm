@@ -40,7 +40,6 @@
               output = list());
 
   res$intermediate$dataName <- as.character(deparse(substitute(data)));
-  res$intermediate$data <- data
 
   res$intermediate$numberOfMediators <-
     nm <- length(mvars);
@@ -48,30 +47,34 @@
   ## check if predictor is dichotomous factor 
   if (is.factor(data[,xvar])) {
       if (nlevels(data[,xvar]) == 2) {
+        res$intermediate$predLevels <- levels(data[,xvar])
         data[,xvar] <- as.numeric(data[,xvar])
-        res$intermediate$data <- data
       } else {
-        return("Predictor is a factor with more than two levels")
+        return(message("Predictor is a factor with more than two levels"))
       }
   }
 
   ## check if there is a moderator for the x - m path
   if (!is.null(xmmod)) {
     if (length(xmmod) > 1) {
-      return("This function can only handle one moderator for the x-m path.");
+      return(message("This function can only handle one moderator for the x-m path."));
     }
     if (is.factor(data[,xmmod])) {
       if (nlevels(data[,xmmod]) > 2) {
-        return("This function can not yet deal with categorical moderators with more than two levels.");
+        return(message("This function can not yet deal with categorical moderators 
+                       with more than two levels."));
       } else {
-        res$intermediate$xdichotomous <-
-          xdichotomous <- TRUE;
+        res$intermediate$xdichotomous <- xdichotomous <- TRUE;
         data[,"xmodOriginal"] <- data[,xmmod];
         data[,xmmod] <- as.numeric(data[,xmmod]) - 1;
       }
     } else {
-      res$intermediate$xdichotomous <-
-        xdichotomous <- FALSE;
+      if (length(unique(data[,xmmod])) == 2) {
+        res$intermediate$xdichotomous <-  xdichotomous <- TRUE
+        levels(data[,xmmod]) <- unique(data[,xmmod])
+        } else {
+      res$intermediate$xdichotomous <- xdichotomous <- FALSE
+        }
     }
 
     xmint <- paste0("xmInteraction",c(1:nm));
@@ -91,16 +94,18 @@
     if (is.factor(data[,mymod])) {
       if (nlevels(data[,mymod]) > 2) {
         return("This function can not yet deal with categorical moderators with more than two levels.");
-      }
-      else {
-        res$intermediate$ydichotomous <-
-          ydichotomous <- TRUE;
+      } else {
+        res$intermediate$ydichotomous <-  ydichotomous <- TRUE;
         data[,"ymodOriginal"] <- data[,mymod];
         data[,mymod] <- as.numeric(data[,mymod]) - 1;
       }
     } else {
-      res$intermediate$ydichotomous <-
-        ydichotomous <- FALSE;
+      if (length(unique(data[,mymod])) == 2) {
+        res$intermediate$ydichotomous <-  ydichotomous <- TRUE
+        levels(data[,mymod]) <- unique(data[,mymod])
+      } else {
+      res$intermediate$ydichotomous <-  ydichotomous <- FALSE
+      }
     }
 
     myint <- paste0("myInteraction",c(1:nm));
@@ -111,6 +116,8 @@
     }
   }
 
+  res$intermediate$data <- data
+  
   ### Build lavaan model
   res$intermediate$model <-
     buildModMedSemModel(xvar=xvar,

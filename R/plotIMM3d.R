@@ -9,7 +9,7 @@
 plotIMM3d <- function(x, ...) {
   
   if (x$intermediate$xdichotomous & x$intermediate$ydichotomous) 
-     {return("No plots are constructed, because both moderators are dichotomous")}
+     {return(message("No plots are constructed, because both moderators are dichotomous"))}
     
   data <- x$intermediate$data 
   xmmod <- x$input$xmmod
@@ -17,7 +17,7 @@ plotIMM3d <- function(x, ...) {
   mvars <- x$input$mvars
   
   
-  if (is.null(xmmod)) { return(" moderator x-m path not specified") }
+  if (is.null(xmmod)) { return(message(" moderator x-m path not specified")) }
   
   if (x$intermediate$xdichotomous) {
     Modxm  <- c(0,1) 
@@ -26,7 +26,7 @@ plotIMM3d <- function(x, ...) {
        Modxm <- quantile(as.numeric(data[,xmmod]), c(.10,.20,.40,.60,.80,.90))
      }
    
-  if (is.null(mymod)) { return(" moderator m-y path not specified") }
+  if (is.null(mymod)) { return(message(" moderator m-y path not specified")) }
   
   if (x$intermediate$ydichotomous) { 
     Modmy  <- c(0,1) 

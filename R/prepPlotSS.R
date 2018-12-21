@@ -14,12 +14,8 @@
 #' @export
 
 prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
-                              modLevels, path = NULL) {
+                              modLevels, predLevels = NULL, xquant, yquant, path = NULL) {
   
-  xquant <- quantile(data[,xvar], c(.16,.84), na.rm = TRUE)
-  yquant <- quantile(data[,yvar], c(.16,.84), na.rm = TRUE)
-  
-  # compute simple slopes
 
     if (vdichotomous) {
        modquant <- c(0,1)
@@ -85,6 +81,10 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
     names(plotDat2) <- c("lwr",yvar,"upr", xvar, mod, "mediator")
     ymin <- min(plotDat2$yvar, plotDat2$lwr,plotDat2$upr, yquant)
     ymax <- max(plotDat2$yvar, plotDat2$lwr,plotDat2$upr, yquant)
+    if (!is.null(predLevels)) { 
+      plotDat2[,xvar] <- as.factor(plotDat2[,xvar])
+      levels(plotDat2[,xvar]) <- predLevels
+    }
     
     plot_simpleSlopes <- ggplot(plotDat2, aes_string(x=xvar,y=yvar,group= mod, colour=mod)) +
        geom_point() + geom_line() +

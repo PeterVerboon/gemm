@@ -5,7 +5,7 @@
 \title{Makes simple slope plots}
 \usage{
 prepPlotSS(data, xvar, yvar, mod, mvars, parEst, vdichotomous, modLevels,
-  path = NULL)
+  predLevels = NULL, xquant, yquant, path = NULL)
 }
 \arguments{
 \item{data}{data frame containg the variables of the model}

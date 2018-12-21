@@ -17,9 +17,20 @@ plotSS <- function(x,...) {
   yvar <- x$input$yvar
   mvars <- x$input$mvars
   parEst <- x$intermediate$parameterEstimates
+  predLevels <- x$intermediate$predLevels
   
-  if ((!length(xmmod)) & (!length(mymod)))
-    return(cat("No plots can be given, because no moderators have been specified"))
+  if ((!length(xmmod)) & (!length(mymod))) {
+    return(message("No plots can be given, because no moderators have been specified"))
+  }
+  
+  xquant <- quantile(data[,xvar],c(.16,.84), na.rm = TRUE)
+  if (xquant[1] == xquant[2])  {
+    if (!is.null(predLevels))  {
+      xquant <- c(0,1)
+    } else {
+      return(message("The 16th and 84th precentile of the predictor are the same. No plots are made."))
+    }
+  }
   
   ## test if moderator exists for x=m path and if it is dichotomous factor
   if (length(xmmod)) {
@@ -34,8 +45,12 @@ plotSS <- function(x,...) {
         xdichotomous <- TRUE;
       }
     }
+    
+    yquant <- quantile(data[,yvar], c(.16,.84), na.rm = TRUE)
+    
     prepPlotSS(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, 
-                 vdichotomous = xdichotomous, modLevels = xmodLevels, path = "x-m")
+                 vdichotomous = xdichotomous, modLevels = xmodLevels, predLevels = predLevels, 
+                 xquant = xquant, yquant = yquant, path = "x-m")
   }
   
   ## test if moderator exists for m=y path and if it is dichotomous factor
@@ -52,7 +67,8 @@ plotSS <- function(x,...) {
       }
     }
     prepPlotSS(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, 
-                 vdichotomous = ydichotomous, modLevels = ymodLevels, path = "m-y")
+                 vdichotomous = ydichotomous, modLevels = ymodLevels,predLevels = predLevels, 
+                 xquant = xquant, yquant = yquant, path = "m-y")
   }
   
   invisible()
