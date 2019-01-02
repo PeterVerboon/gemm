@@ -16,8 +16,12 @@ plotSS <- function(x,...) {
   xvar <- x$input$xvar
   yvar <- x$input$yvar
   mvars <- x$input$mvars
+  xmoderator <- x$input$data[,xmmod]
+  ymoderator <- x$input$data[,mymod]
   parEst <- x$intermediate$parameterEstimates
   predLevels <- x$intermediate$predLevels
+  xdichotomous <- x$intermediate$xdichotomous
+  ydichotomous <- x$intermediate$ydichotomous
   
   if ((!length(xmmod)) & (!length(mymod))) {
     return(message("No plots can be given, because no moderators have been specified"))
@@ -32,40 +36,23 @@ plotSS <- function(x,...) {
     }
   }
   
-  ## test if moderator exists for x=m path and if it is dichotomous factor
+  yquant <- quantile(data[,yvar], c(.16,.84), na.rm = TRUE)
+  
+  ## test if moderator exists for x=m path 
+  
   if (length(xmmod)) {
-    xdichotomous <- FALSE
-    if (is.factor(data[,xmmod])) {
-      if (length(levels(data[,xmmod])) > 2) {
-        stop("This function can not yet plot moderation with a moderator (x-m path) that is a factor with more than two levels.");
-      }
-      else {
-        xmodLevels <- levels(data[,xmmod]);
-        data[,xmmod] <- as.numeric(data[,xmmod]) - 1;
-        xdichotomous <- TRUE;
-      }
-    }
-    
-    yquant <- quantile(data[,yvar], c(.16,.84), na.rm = TRUE)
-    
+    if (is.factor(xmoderator)) xmodLevels <- levels(xmoderator)
+   
     prepPlotSS(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, 
                  vdichotomous = xdichotomous, modLevels = xmodLevels, predLevels = predLevels, 
                  xquant = xquant, yquant = yquant, path = "x-m")
   }
   
-  ## test if moderator exists for m=y path and if it is dichotomous factor
+  ## test if moderator exists for m=y path 
   
   if (length(mymod)) {
-    ydichotomous <- FALSE
-    if (is.factor(data[,mymod])) {
-      if (length(levels(data[,mymod])) > 2) {
-        stop("This function can not yet plot moderation with a moderator (x-y path) that is a factor with more than two levels.")}
-      else {
-        ymodLevels <- levels(data[,mymod]);
-        data[,mymod] <- as.numeric(data[,mymod]) - 1;
-        ydichotomous <- TRUE;
-      }
-    }
+    if (is.factor(ymoderator)) ymodLevels <- levels(ymoderator)
+    
     prepPlotSS(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, 
                  vdichotomous = ydichotomous, modLevels = ymodLevels,predLevels = predLevels, 
                  xquant = xquant, yquant = yquant, path = "m-y")
