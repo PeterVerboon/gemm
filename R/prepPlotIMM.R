@@ -109,8 +109,8 @@ prepPlotIMM <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
     levels(plotData[,mod]) <- legendLabel
     
     plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
-      geom_point(aes(colour = mediator), position = pd, size=3) +  
-      geom_errorbar(aes(ymin=IMM_lwr, ymax=IMM_upr), position = pd) +
+      geom_point(aes(colour = mediator), position = pd, size=2) +  
+      geom_errorbar(aes(ymin=IMM_lwr, ymax=IMM_upr), width=0.2, size=0.5, position = pd) +
       coord_cartesian(ylim=c(ymin, ymax)) +
       ggtitle("Index of moderated mediation") +
       xlab(paste0("Moderator: ",mod)) 

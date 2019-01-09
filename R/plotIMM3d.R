@@ -21,7 +21,7 @@ plotIMM3d <- function(x, ...) {
   
   if (x$intermediate$xdichotomous) {
     Modxm  <- c(0,1) 
-    modLevels <- levels(data[,xmmod])
+    modLevels <- levels(x$input$data[,xmmod])
   } else {
        Modxm <- quantile(as.numeric(data[,xmmod]), c(.10,.20,.40,.60,.80,.90))
      }
@@ -30,7 +30,7 @@ plotIMM3d <- function(x, ...) {
   
   if (x$intermediate$ydichotomous) { 
     Modmy  <- c(0,1) 
-    modLevels <- levels(data[,mymod])
+    modLevels <- levels(x$input$data[,mymod])
     } else {
           Modmy <- quantile(as.numeric(data[,mymod]), c(.10,.20,.40,.60,.80,.90))
      } 
@@ -66,7 +66,8 @@ plotIMM3d <- function(x, ...) {
        df2$fac <- df2$y; 
        modlab <- mymod 
        mod <- xmmod
-       }
+    }
+    
     p <- ggplot(df2, aes(x=x, y=est, colour = as.factor(fac))) + geom_line() +
          ylim(lwzlim,upzlim) +
          xlab(paste0("Numerical moderator: ", mod)) +

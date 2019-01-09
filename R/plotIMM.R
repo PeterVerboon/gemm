@@ -17,22 +17,24 @@ plotIMM <- function(x,...) {
   yvar <- x$input$yvar
   mvars <- x$input$mvars
   parEst <- x$intermediate$parameterEstimates
+  xmoderator <- x$input$data[,xmmod]
+  ymoderator <- x$input$data[,mymod]
+  xdichotomous <- x$intermediate$xdichotomous
+  ydichotomous <- x$intermediate$ydichotomous
   
   if ((!length(xmmod)) & (!length(mymod)))
     return(cat("No plots can be given, because no moderators have been specified"))
   
   ## test if moderator exists for x=m path and if it is dichotomous factor
   if (length(xmmod)) {
-    xdichotomous <- FALSE
-    if (is.factor(data[,xmmod])) {
-      if (length(levels(data[,xmmod])) > 2) {
+    if (is.factor(xmoderator)) {
+      if (length(levels(xmoderator)) > 2) {
         stop("This function can not yet plot moderation with a moderator (x-m path) that is a factor with more than two levels.");
       }
       else {
-        xmodLevels <- levels(data[,xmmod]);
-        data[,xmmod] <- as.numeric(data[,xmmod]) - 1;
-        xdichotomous <- TRUE;
-      }
+        xmodLevels <- levels(xmoderator);
+        data[,xmmod] <- as.numeric(xmoderator) - 1;
+     }
     }
     prepPlotIMM(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, 
                  vdichotomous = xdichotomous, modLevels = xmodLevels, path = "x-m")
@@ -41,16 +43,15 @@ plotIMM <- function(x,...) {
   ## test if moderator exists for m=y path and if it is dichotomous factor
   
   if (length(mymod)) {
-    ydichotomous <- FALSE
-    if (is.factor(data[,mymod])) {
-      if (length(levels(data[,mymod])) > 2) {
+    if (is.factor(ymoderator)) {
+      if (length(levels(ymoderator)) > 2) {
         stop("This function can not yet plot moderation with a moderator (x-y path) that is a factor with more than two levels.")}
       else {
-        ymodLevels <- levels(data[,mymod]);
-        data[,mymod] <- as.numeric(data[,mymod]) - 1;
-        ydichotomous <- TRUE;
+        ymodLevels <- levels(ymoderator);
+        data[,mymod] <- as.numeric(ymoderator) - 1;
       }
     }
+    
     prepPlotIMM(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, 
                  vdichotomous = ydichotomous, modLevels = ymodLevels, path = "m-y")
   }
