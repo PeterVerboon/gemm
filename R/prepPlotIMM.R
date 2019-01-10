@@ -78,14 +78,15 @@ prepPlotIMM <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
       plotData <- rbind(plotData,plotDat0)
 
      }  # loop mvars
+
+    
+  names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
+  ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
+  ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
   
   
   if (!vdichotomous) {
-    
-      names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
-      ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-      ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-
+ 
       plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
        geom_line(aes(colour = mediator, group = mediator)) +      
        coord_cartesian(ylim=c(ymin, ymax)) +
@@ -100,9 +101,6 @@ prepPlotIMM <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
   
   if (vdichotomous) {
     
-    names(plotData) <- c("IMM_lwr",'IMM',"IMM_upr", mod, "mediator")
-    ymin <- min(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
-    ymax <- max(plotData$IMM,plotData$IMM_lwr,plotData$IMM_upr, yquant, na.rm = TRUE)
     pd <- position_dodge(0.1)
     
     plotData[,mod] <- as.factor(plotData[,mod])
