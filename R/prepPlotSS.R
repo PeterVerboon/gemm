@@ -25,15 +25,15 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
        legendLabel <- c("16th percentile", "84th percentile")
     }
 
-  if (path == "x-m") {
-    vorw <- "w"
-    inter <- "im"
-    modmed <- "modmedx"
-  } else {
-    vorw <- "v"
-    inter <- "iy"
-    modmed <- "modmedm"
-  }
+    if (path == "x-m") {
+        vorw <- "w"
+        inter <- "im"
+        modmed <- "modmedx"
+    } else {
+          vorw <- "v"
+          inter <- "iy"
+          modmed <- "modmedm"
+      }
   
   ind <- subset(parEst, grepl("ind", parEst$label))[,c("ci.lower","est","ci.upper")]
   vw <- subset(parEst, grepl(vorw, parEst$label))[,c("ci.lower","est","ci.upper")]
