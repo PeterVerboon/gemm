@@ -141,6 +141,15 @@
   ### Extract R squared values
   res$output$Rsq <-
     lavaan::inspect(res$intermediate$result, "r2");
+  
+  ### Extract parameter estimates for a and b paths
+  res$intermediate$parameterEstimates <- r1 <-
+    lavaan::parameterestimates(result);
+  res$output$parameterEstimates.apath <-
+    r1[(r1[,"lhs"] %in% mvars & r1[,"rhs"] %in% c(xvar,xmmod,xmint)),-c(1:3)]
+  res$output$parameterEstimates.bpath <-
+    r1[(r1[,"lhs"] %in% yvar & r1[,"rhs"] %in% c(mvars,mymod,myint)),-c(1:3)]
+  
 
   ### Extract parameter estimates for direct effects
   res$intermediate$parameterEstimates <- r1 <-
