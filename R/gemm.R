@@ -152,8 +152,6 @@
   
 
   ### Extract parameter estimates for direct effects
-  res$intermediate$parameterEstimates <- r1 <-
-    lavaan::parameterestimates(result);
   res$output$parameterEstimates.direct <-
       r1[(r1[,"lhs"] %in% yvar & r1[,"rhs"] %in% xvar),-c(1:3)]
 
