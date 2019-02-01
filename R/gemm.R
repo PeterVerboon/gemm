@@ -53,7 +53,12 @@
         return(message("Predictor is a factor with more than two levels"))
       }
   }
-
+ 
+  ## initialize xmint and myint
+  xmint <- NULL
+  myint <- NULL
+  
+  
   ## check if there is a moderator for the x - m path
   if (!is.null(xmmod)) {
     if (length(xmmod) > 1) {

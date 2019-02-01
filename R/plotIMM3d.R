@@ -8,6 +8,9 @@
 
 plotIMM3d <- function(x, ...) {
   
+  if (is.null(x$intermediate$xdichotomous) | is.null(x$intermediate$ydichotomous)) 
+     {return(message("No plot is constructed, because there are no two moderators specified"))}
+  
   if (x$intermediate$xdichotomous & x$intermediate$ydichotomous) 
      {return(message("No plots are constructed, because both moderators are dichotomous"))}
     
