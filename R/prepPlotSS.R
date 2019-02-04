@@ -19,7 +19,7 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
 
     if (vdichotomous) {
        modquant <- c(0,1)
-       legendLabel <- modLevels
+       ifelse(is.null(modLevels), legendLabel <- c(0,1), legendLabel <- modLevels)
     } else {
        modquant <- quantile(data[,mod], c(.16,.84), na.rm = TRUE)
        legendLabel <- c("16th percentile", "84th percentile")

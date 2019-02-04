@@ -23,8 +23,10 @@ prepPlotIMM <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
 
     if (vdichotomous) {
        modquant <- c(0,1)
+       ifelse(is.null(modLevels), legendLabel <- c(0,1), legendLabel <- modLevels)
     } else {
        modquant <- quantile(data[,mod], c(.16,.84), na.rm = TRUE)
+       legendLabel <- c("16th percentile", "84th percentile")
     }
 
   if (path == "x-m") {
@@ -48,13 +50,8 @@ prepPlotIMM <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
   N <- dim(data)[1]
   
   if (vorw == "v") bw <- (matrix(as.numeric(vw), nrow=length(mvars), ncol = 3, byrow = TRUE ))
+    
   
-  if (vdichotomous) {
-    legendLabel <- modLevels
-  }
-  else {
-    legendLabel <- c("16th percentile", "84th percentile")
-  }
 
   # initialize data for index mediated moderation
  

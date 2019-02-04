@@ -27,6 +27,7 @@ plotIMM <- function(x,...) {
   
   ## test if moderator exists for x=m path and if it is dichotomous factor
   if (length(xmmod)) {
+    if (length(unique(xmoderator)) == 2) xmodLevels <- c(0,1)
     if (is.factor(xmoderator)) {
       if (length(levels(xmoderator)) > 2) {
         stop("This function can not yet plot moderation with a moderator (x-m path) that is a factor with more than two levels.");
@@ -43,6 +44,7 @@ plotIMM <- function(x,...) {
   ## test if moderator exists for m=y path and if it is dichotomous factor
   
   if (length(mymod)) {
+    if (length(unique(ymoderator)) == 2) ymodLevels <- c(0,1)
     if (is.factor(ymoderator)) {
       if (length(levels(ymoderator)) > 2) {
         stop("This function can not yet plot moderation with a moderator (x-y path) that is a factor with more than two levels.")}

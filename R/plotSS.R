@@ -41,6 +41,7 @@ plotSS <- function(x,...) {
   ## test if moderator exists for x=m path 
   
   if (length(xmmod)) {
+    xmodLevels <- NULL
     if (is.factor(xmoderator)) xmodLevels <- levels(xmoderator)
    
     prepPlotSS(data=data, xvar=xvar, yvar = yvar, mod = xmmod, mvars = mvars, parEst = parEst, 
@@ -51,6 +52,7 @@ plotSS <- function(x,...) {
   ## test if moderator exists for m=y path 
   
   if (length(mymod)) {
+    ymodLevels <- NULL
     if (is.factor(ymoderator)) ymodLevels <- levels(ymoderator)
     
     prepPlotSS(data=data, xvar=xvar, yvar = yvar, mod = mymod, mvars = mvars, parEst = parEst, 
