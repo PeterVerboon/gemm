@@ -192,7 +192,10 @@ print.gemm <- function(x, ..., digits=2) {
   
   options(digits = digits)
 
-  cat("###   The model contains", length(x$input$mvars),"mediators:",x$input$mvars, "
+  cat("
+       ###   The dependent variable is:     ", (x$input$yvar), "
+       ###   The predictor variable is:     ", (x$input$xvar), "
+       ###   The model contains", length(x$input$mvars),"mediators:",x$input$mvars, "
       and",length(x$input$xmmod), "moderators for the x-m path(s):",x$input$xmmod, "
       and",length(x$input$mymod), "moderators for the m-y path(s):",x$input$mymod, "
       and",length(x$input$cmvars), "covariates for the mediators:",x$input$cmvars, "
