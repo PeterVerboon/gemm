@@ -24,7 +24,7 @@ plotIMM3d <- function(x, ...) {
   
   if (x$intermediate$xdichotomous) {
     Modxm  <- c(0,1) 
-    modLevels <- levels(x$input$data[,xmmod])
+    ifelse(is.factor(xmmod), modLevels <- levels(x$input$data[,xmmod]), modLevels <- c(0,1))
   } else {
        Modxm <- quantile(as.numeric(data[,xmmod]), c(.10,.20,.40,.60,.80,.90))
      }
@@ -33,7 +33,7 @@ plotIMM3d <- function(x, ...) {
   
   if (x$intermediate$ydichotomous) { 
     Modmy  <- c(0,1) 
-    modLevels <- levels(x$input$data[,mymod])
+    ifelse(is.factor(mymod), modLevels <- levels(x$input$data[,mymod]), modLevels <- c(0,1))
     } else {
           Modmy <- quantile(as.numeric(data[,mymod]), c(.10,.20,.40,.60,.80,.90))
      } 
