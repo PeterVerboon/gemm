@@ -250,7 +250,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   cat("\n")
 
     
-  if (!is.null(cmvars) | !is.null(cyvars)) {
+  if (!is.null(x$input$cmvars) | !is.null(x$input$cyvars)) {
     cat("Estimates of covariates");
     cov <- x$output$parameterEstimates.covs
     row.names(cov) <- terms1 <- terms2 <- NULL
