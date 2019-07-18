@@ -27,7 +27,7 @@ plotSS <- function(x,...) {
     return(message("No plots can be given, because no moderators have been specified"))
   }
   
-  xquant <- quantile(data[,xvar],c(.16,.84), na.rm = TRUE)
+  xquant <- stats::quantile(data[,xvar],c(.16,.84), na.rm = TRUE)
   if (xquant[1] == xquant[2])  {
     if (!is.null(predLevels))  {
       xquant <- c(0,1)
@@ -36,7 +36,7 @@ plotSS <- function(x,...) {
     }
   }
   
-  yquant <- quantile(data[,yvar], c(.16,.84), na.rm = TRUE)
+  yquant <- stats::quantile(data[,yvar], c(.16,.84), na.rm = TRUE)
   
   ## test if moderator exists for x=m path 
   

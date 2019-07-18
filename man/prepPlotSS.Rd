@@ -24,6 +24,12 @@ prepPlotSS(data, xvar, yvar, mod, mvars, parEst, vdichotomous, modLevels,
 
 \item{modLevels}{levels of dichotomous moderator}
 
+\item{predLevels}{levels of dichotomous moderator}
+
+\item{xquant}{quantiles of x}
+
+\item{yquant}{quantiles of y}
+
 \item{path}{which path is used}
 }
 \value{

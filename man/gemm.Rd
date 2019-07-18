@@ -38,8 +38,7 @@ Analyze moderated mediation model using SEM
 \examples{
 data("gemmDat")
 res <- gemm(dat = gemmDat, xvar="x1", mvars= c("m1","m2","m3"),
-       yvar = "y1", xmmod = "mod1", mymod= "bimod2",
-       cmvars =c("c1","c2"), cyvars =c("c1","c2"), nboot=50)
+       yvar = "y1", xmmod = "mod1",  cmvars =c("c1","c2"), nboot=500)
 print(res)
 plot(res)
 }

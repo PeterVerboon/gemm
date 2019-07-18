@@ -8,6 +8,9 @@
 #' @param parEst parameter estimates from lavaan results
 #' @param vdichotomous indicates whether moderator is dichotomous (TRUE)
 #' @param modLevels levels of dichotomous moderator
+#' @param predLevels levels of dichotomous moderator
+#' @param xquant quantiles of x
+#' @param yquant quantiles of y
 #' @param path which path is used
 #' @import ggplot2
 #' @return empty, directly plots all simple slopes and all indices of mediation
@@ -21,7 +24,7 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
        modquant <- c(0,1)
        ifelse(is.null(modLevels), legendLabel <- c(0,1), legendLabel <- modLevels)
     } else {
-       modquant <- quantile(data[,mod], c(.16,.84), na.rm = TRUE)
+       modquant <- stats::quantile(data[,mod], c(.16,.84), na.rm = TRUE)
        legendLabel <- c("16th percentile", "84th percentile")
     }
 

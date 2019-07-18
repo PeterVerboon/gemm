@@ -64,7 +64,7 @@ library(gemm)
 ```
 An illustration of the moderated mediation model, for which the function can be applied, is shown in Figure 1. The figure represents a structural model, linking the observed variables to each other. We are therefore using the SEM software to fit the moderated mediation model. To this end we use the lavaan package [@Rosseel2012]. Figure 1 shows the most general situation, with several mediators, several covariates for the mediators and several covariates for the dependent variable. There are also two moderators in this model, one for the paths from the predictor to the mediators and one for the paths from the mediators to the dependent variabele.
 
-![Moderated mediation model](Figure ModMed model.jpg)
+![Moderated mediation model](Figure_ModMed.jpg)
 
 
 The model is limited in the sense that only one predictor, one dependent variable, and for each path one moderator are defined. Furthermore, serial mediation is not included in this model. The number of mediators and covariates is not limited.

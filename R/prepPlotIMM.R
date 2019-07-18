@@ -16,8 +16,8 @@
 prepPlotIMM <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
                               modLevels, path = NULL) {
   
-  xquant <- quantile(data[,xvar], c(.16,.84), na.rm = TRUE)
-  yquant <- quantile(data[,yvar], c(.16,.84), na.rm = TRUE)
+  xquant <- stats::quantile(data[,xvar], c(.16,.84), na.rm = TRUE)
+  yquant <- stats::quantile(data[,yvar], c(.16,.84), na.rm = TRUE)
   
   # compute simple slopes
 
@@ -25,7 +25,7 @@ prepPlotIMM <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
        modquant <- c(0,1)
        ifelse(is.null(modLevels), legendLabel <- c(0,1), legendLabel <- modLevels)
     } else {
-       modquant <- quantile(data[,mod], c(.16,.84), na.rm = TRUE)
+       modquant <- stats::quantile(data[,mod], c(.16,.84), na.rm = TRUE)
        legendLabel <- c("16th percentile", "84th percentile")
     }
 

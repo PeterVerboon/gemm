@@ -7,15 +7,13 @@
 prepIMM3d(M1, M2, parEst = parEst, i = 1)
 }
 \arguments{
+\item{M1}{moderator of x-m path}
+
+\item{M2}{moderator of m-y path}
+
 \item{parEst}{parameter estimates from lavaan results}
 
-\item{data}{data frame containg the moderators}
-
-\item{xmmod}{moderator of x-m path}
-
-\item{mymod}{moderator of m-y path}
-
-\item{mvars}{vector of mediators names}
+\item{i}{index of vector of mediators names}
 }
 \value{
 vector of index of moderated mediation with CI limits for a given mediator

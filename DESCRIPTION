@@ -13,4 +13,7 @@ Imports: knitr,
     ggplot2,
     stringr,
     pander,
-    lavaan
+    lavaan,
+    graphics,
+    stats
+

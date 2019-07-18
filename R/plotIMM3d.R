@@ -26,7 +26,7 @@ plotIMM3d <- function(x, ...) {
     Modxm  <- c(0,1) 
     ifelse(is.factor(xmmod), modLevels <- levels(x$input$data[,xmmod]), modLevels <- c(0,1))
   } else {
-       Modxm <- quantile(as.numeric(data[,xmmod]), c(.10,.20,.40,.60,.80,.90))
+       Modxm <- stats::quantile(as.numeric(data[,xmmod]), c(.10,.20,.40,.60,.80,.90))
      }
    
   if (is.null(mymod)) { return(message(" moderator m-y path not specified")) }
@@ -35,7 +35,7 @@ plotIMM3d <- function(x, ...) {
     Modmy  <- c(0,1) 
     ifelse(is.factor(mymod), modLevels <- levels(x$input$data[,mymod]), modLevels <- c(0,1))
     } else {
-          Modmy <- quantile(as.numeric(data[,mymod]), c(.10,.20,.40,.60,.80,.90))
+          Modmy <- stats::quantile(as.numeric(data[,mymod]), c(.10,.20,.40,.60,.80,.90))
      } 
   
   parEst <- lavaan::parameterestimates(x$intermediate$result)
@@ -50,7 +50,7 @@ plotIMM3d <- function(x, ...) {
 
     if (!x$intermediate$xdichotomous & !x$intermediate$ydichotomous) { 
       
-    persp(x=Modxm, y = Modmy, z = z, zlab = "IMM", xlab = "Mod1", ylab ="Mod2", 
+    graphics::persp(x=Modxm, y = Modmy, z = z, zlab = "IMM", xlab = "Mod1", ylab ="Mod2", 
           main = paste0("Index of Moderated Mediation of ab-path for mediator: ", mvars[i]),
           theta = 30, phi = 30,axes = TRUE, scale = TRUE, zlim = c(lwzlim,upzlim),
           ticktype = "detailed",nticks = 4,
@@ -77,7 +77,7 @@ plotIMM3d <- function(x, ...) {
          ylab(paste0("IMM")) +
          scale_colour_discrete(name  = modlab, labels = modLevels) +
          ggtitle(paste0("Index of Moderated Mediation for mediator: ", mvars[i] )) 
-    plot(p)
+    graphics::plot(p)
     }
     
   }
@@ -87,10 +87,9 @@ plotIMM3d <- function(x, ...) {
 
 #' Computes Index of moderated mediation of gemm object
 #'
-#' @param data data frame containg the moderators
-#' @param xmmod moderator of x-m path  
-#' @param mymod moderator of m-y path
-#' @param mvars vector of mediators names
+#' @param M1 moderator of x-m path  
+#' @param M2 moderator of m-y path
+#' @param i index of vector of mediators names
 #' @param parEst parameter estimates from lavaan results
 #' @return vector of index of moderated mediation with CI limits for a given mediator
 #' @export
