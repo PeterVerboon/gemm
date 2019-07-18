@@ -175,6 +175,8 @@
    aa <- lavaan::lavInspect(result, "std")$beta[yvar,mvars] * lavaan::lavInspect(result, "std")$beta[mvars, xvar];
    names(aa) <- mvars
    res$output$parameterEstimates.indirect.standardized <- aa
+   
+   res$output$parameterEstimates.total <- coef(summary(lm(data[,yvar] ~ data[,xvar], data = data)))
 
   class(res) <- "gemm";
 
@@ -221,6 +223,17 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   pander::pander(a, justify = c("left", "right"))
   cat("\n")
 
+  cat("Estimate of total effect");
+  a <- as.data.frame(x$output$parameterEstimates.total)
+  row.names(a) <- NULL
+  terms <- c("intercept", paste0(x$input$xvar, " --> ", x$input$yvar))
+  a$Effect <- terms
+  a <- a[,c(5,1:4)]
+  a[,c(2:5)] <- format(round(a[,c(2:5)], digits = 4), nsmall = 1)
+  pander::pander(a, justify = c("left", "right", "right", "right","right"))
+  cat("\n\n")
+  
+  
   cat("Estimates of a-paths");
   a <- x$output$parameterEstimates.apath
   row.names(a) <- NULL
@@ -266,7 +279,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
     cat("\n")
   }
   
-  cat("Direct effect (c) ");
+  cat("Direct effect (c') ");
   d <- x$output$parameterEstimates.direct
   row.names(d) <- NULL
   d[,1] <- paste0(x$input$xvar," --> ", x$input$yvar)
@@ -274,7 +287,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   pander::pander(d, justify = c("left", "right", "right", "right","right","right","right"))
   cat("\n")
   
-  cat("Indirect effects (c') ");
+  cat("Indirect effects (a*b) ");
   ind <- x$output$parameterEstimates.indirect.raw
   ind$standardized <- x$output$parameterEstimates.indirect.standardized
   row.names(ind) <- NULL
