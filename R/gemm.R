@@ -21,7 +21,7 @@
 #' res <- gemm(dat = gemmDat, xvar="x1", mvars= c("m1","m2","m3"),
 #'        yvar = "y1", xmmod = "mod1",  cmvars =c("c1","c2"), nboot=500)
 #' print(res)
-#' plotSS(res)
+#' plotSS(res) 
 
                  gemm <- function(data = NULL,
                                   xvar,
