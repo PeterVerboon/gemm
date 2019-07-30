@@ -21,21 +21,21 @@ plotIMM3d <- function(x, ...) {
   
   
   if (is.null(xmmod)) { return(message(" moderator x-m path not specified")) }
+  ifelse(is.factor(x$input$data[,xmmod]), modLevels <- levels(x$input$data[,xmmod]), modLevels <- c(0,1))
   
   if (x$intermediate$xdichotomous) {
     Modxm  <- c(0,1) 
-    ifelse(is.factor(xmmod), modLevels <- levels(x$input$data[,xmmod]), modLevels <- c(0,1))
   } else {
-       Modxm <- stats::quantile(as.numeric(data[,xmmod]), c(.10,.20,.40,.60,.80,.90))
+    Modxm <- stats::quantile(as.numeric(data[,xmmod]), c(.10,.20,.40,.60,.80,.90))
      }
    
   if (is.null(mymod)) { return(message(" moderator m-y path not specified")) }
+  ifelse(is.factor(x$input$data[,mymod]), modLevels <- levels(x$input$data[,mymod]), modLevels <- c(0,1))
   
   if (x$intermediate$ydichotomous) { 
     Modmy  <- c(0,1) 
-    ifelse(is.factor(mymod), modLevels <- levels(x$input$data[,mymod]), modLevels <- c(0,1))
     } else {
-          Modmy <- stats::quantile(as.numeric(data[,mymod]), c(.10,.20,.40,.60,.80,.90))
+      Modmy <- stats::quantile(as.numeric(data[,mymod]), c(.10,.20,.40,.60,.80,.90))
      } 
   
   parEst <- lavaan::parameterestimates(x$intermediate$result)
