@@ -11,7 +11,7 @@
   \item{procJustice}{prodedural justice}
   \item{trust}{trust in management}
   \item{cynicism}{cynicism about the management}
-  \item{CPB}{contr-productive behaviour }
+  \item{CPB}{contra-productive behaviour }
   \item{insecure}{insecure about job continuation }
   \item{norms}{personal norms about CPB}
   }}
