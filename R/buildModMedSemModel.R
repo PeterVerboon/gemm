@@ -10,8 +10,8 @@
 #' @param cmvars covariates for predicting the mediators
 #' @param cyvars covariates for predicting the dependent variable
 #' @return lavaan model to be used in moderatedMediationSem
-#' @examples model <- buildModMedSemModel(xvar="x1",  yvar = "y1", mvars= c("m1","m2","m3"),xmmod = "mod1",
-#'           mymod = "mod2",cmvars = "c1",cyvars = "c2")
+#' @examples model <-  buildModMedSemModel(xvar="procJustice", mvars= c("cynicism"),
+#'           yvar = "CPB", xmmod = "insecure",mymod = "gender" ,cmvars =c("age"))
 #' @export
 buildModMedSemModel <- function(xvar,
                                 mvars,
@@ -64,7 +64,7 @@ buildModMedSemModel <- function(xvar,
   }
 
   ### path from x to y
-  c <- paste0("c",a1,b2);
+  c <- paste0("cp",a1,b2);
 
   ### path from c1 to m
   d <- paste0("d",h);
@@ -100,6 +100,9 @@ buildModMedSemModel <- function(xvar,
   modmedm <- paste0("modmedm", a2 );
   bw <- paste0("bw", a2 );
   gw <- paste0("gw", a2 );
+  
+  ##  ratio ES
+  ratio <- paste0("ratio", a2)
 
   ### initialize path from mod on x - m path
   modela2 <- " ";
@@ -176,7 +179,11 @@ buildModMedSemModel <- function(xvar,
     modeli2 <- paste0(modmedm , " := " , v2, " * ", a, collapse = " \n ");
   }
 
-  modelt <- paste0("tot"," := " , (paste0(ind,  collapse = " + ")));
+  sumInd <- paste0(ind,  collapse = " + ")
+  modelt <- paste0("tot := " , sumInd);
+  
+  modelr <- paste0(ratio," := " , "(",ind, ")" ,"/" , "(",ind,  "+", c, ")" ,  collapse = " \n ");
+  modelrt <- paste0("ratio_tot := " , paste0("(",sumInd,")", "/" , "(",sumInd,  "+", c,")"));
 
   model <- paste0(modela1," \n ",modela2," \n ",
                   modelb1," \n ", modelb2," \n ",
@@ -186,7 +193,7 @@ buildModMedSemModel <- function(xvar,
                   modelf, " \n ",
                   model_cov1," \n ", model_cov2, " \n ",
                   modeli, " \n ", modeli1, " \n ", modeli2, " \n ",modeli3, " \n ", modeli5, " \n ",
-                  modelt);
+                  modelt, " \n ", modelr, " \n ", modelrt);
 
   return(model)
 }

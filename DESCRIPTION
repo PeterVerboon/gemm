@@ -1,13 +1,13 @@
 Package: gemm
 Title: Moderated mediation with covariates
-Version: 0.0.1
+Version: 0.1.1
 Authors@R: person("Peter", "Verboon", email = "Peter.Verboon@ou.nl", role = c("aut", "cre"))
 Description: The function moderatedMediationSem performs a moderated mediation analysis with covariates using SEM (lavaan).
 Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Published: 2018
+Published: 2019
 RoxygenNote: 6.1.1
 Imports: knitr,
     ggplot2,

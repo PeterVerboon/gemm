@@ -29,6 +29,6 @@ lavaan model to be used in moderatedMediationSem
 Builds model for moderated mediation anaysis using SEM
 }
 \examples{
-model <- buildModMedSemModel(xvar="x1",  yvar = "y1", mvars= c("m1","m2","m3"),xmmod = "mod1",
-          mymod = "mod2",cmvars = "c1",cyvars = "c2")
+model <-  buildModMedSemModel(xvar="procJustice", mvars= c("cynicism"),
+          yvar = "CPB", xmmod = "insecure",mymod = "gender" ,cmvars =c("age"))
 }
