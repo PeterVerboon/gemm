@@ -32,7 +32,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   row.names(a) <- NULL
   a$Dependent <- c(x$input$mvars, x$input$yvar)
   a <- a[,c(2,1)]
-  a[,2] <- format(round(a[,2], digits = 3), nsmall = 1)
+  a[,2] <- format(round(a[,2], digits = 3), nsmall = 2)
   pander::pander(a, justify = c("left", "right"))
   cat("\n")
   
@@ -61,7 +61,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
                      paste0(x$input$xmmod, " --> ", x$input$mvars),
                      paste0(x$input$xvar, " x ",x$input$xmmod, " --> ", x$input$mvars)) }
   a[,1] <- terms
-  a[,c(2:7)] <- format(round(a[,c(2:7)], digits = 4), nsmall = 1)
+  a[,c(2:7)] <- format(round(a[,c(2:7)], digits = 3), nsmall = 2)
   pander::pander(a, justify = c("left", "right", "right", "right","right","right","right"))
   cat("\n\n")
   
@@ -75,7 +75,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
                      paste0(x$input$mymod, " --> ", x$input$yvar),
                      paste0(x$input$mvars," x ", x$input$mymod, " --> ", x$input$yvar))}
   b[,1] <- terms
-  b[,c(2:7)] <- format(round(b[,c(2:7)], digits = 4), nsmall = 1)
+  b[,c(2:7)] <- format(round(b[,c(2:7)], digits = 3), nsmall = 2)
   pander::pander(b, justify = c("left", "right", "right", "right","right","right","right"))
   cat("\n")
   
@@ -91,7 +91,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
       terms2 <- paste0(x$input$cmvars, " --> ", x$input$mvars) }
     terms <- c(terms1,terms2)
     cov[,1] <- terms
-    cov[,c(2:7)] <- format(round(cov[,c(2:7)], digits = 4), nsmall = 1)
+    cov[,c(2:7)] <- format(round(cov[,c(2:7)], digits = 3), nsmall = 2)
     pander::pander(cov, justify = c("left", "right", "right", "right","right","right","right"))
     cat("\n")
   }
@@ -100,7 +100,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   d <- x$output$parameterEstimates.direct
   row.names(d) <- NULL
   d[,1] <- paste0(x$input$xvar," --> ", x$input$yvar)
-  d[,c(2:7)] <- format(round(d[,c(2:7)], digits = 4), nsmall = 1)
+  d[,c(2:7)] <- format(round(d[,c(2:7)], digits = 3), nsmall = 2)
   pander::pander(d, justify = c("left", "right", "right", "right","right","right","right"))
   cat("\n")
   
@@ -110,7 +110,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   row.names(ind) <- NULL
   names(ind) <- c("through",names(ind)[-1])
   ind[,1] <- c(x$input$mvars, "total")
-  ind[,c(2:7)] <- format(round(ind[,c(2:7)], digits = 4), nsmall = 1)
+  ind[,c(2:7)] <- format(round(ind[,c(2:7)], digits = 3), nsmall = 2)
   pander::pander(ind, justify = c("left", rep("right",6))) 
   cat("\n")
   
@@ -121,7 +121,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   es2[,7] <- c(x$input$mvars, "total")
   es2 <- es2[,c(7,1:6)]
   names(es2)[1] <- c("through")
-  es2[,c(2:7)] <- format(round(es2[,c(2:7)], digits = 4), nsmall = 1)
+  es2[,c(2:7)] <- format(round(es2[,c(2:7)], digits = 3), nsmall = 2)
   pander::pander(es2, justify = c("left", rep("right",6))) 
   cat("\n")
   
@@ -131,7 +131,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   es1[,7] <- c(x$input$mvars, "total")
   es1 <- es1[,c(7,1:6)]
   names(es1)[1] <- c("through")
-  es1[,c(2:7)] <- format(round(es1[,c(2:7)], digits = 4), nsmall = 1)
+  es1[,c(2:7)] <- format(round(es1[,c(2:7)], digits = 3), nsmall = 2)
   pander::pander(es1, justify = c("left", rep("right",6))) 
   cat("\n")
   
