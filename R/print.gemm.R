@@ -37,13 +37,17 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   cat("\n")
   
   cat("Estimate of total effect");
-  a <- as.data.frame(x$output$parameterEstimates.total)
+  lmout <- x$output$parameterEstimates.total
+  a <- summary(lmout)$coefficients
+  b <- confint(lmout)
+  a <- as.data.frame(cbind(a,b))
   row.names(a) <- NULL
   terms <- c("intercept", paste0(x$input$xvar, " --> ", x$input$yvar))
-  a$Effect <- terms
-  a <- a[,c(5,1:4)]
-  a[,c(2:5)] <- format(round(a[,c(2:5)], digits = 4), nsmall = 1)
-  pander::pander(a, justify = c("left", "right", "right", "right","right"))
+  a$effect <- terms
+  a <- a[,c(7,1:6)]
+  a[,c(2:7)] <- format(round(a[,c(2:7)], digits = 3), nsmall = 2)
+  colnames(a) <- c("effect","est","se","t","pvalue", "ci.lower", "ci.upper")
+  pander::pander(a, justify = c("left", "right", "right", "right","right","right","right"))
   cat("\n\n")
   
   

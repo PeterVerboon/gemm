@@ -182,7 +182,7 @@
     res$output$parameterEstimates.indirect.es_std <- es2
      
    
-   res$output$parameterEstimates.total  <- stats::coef(summary(stats::lm(data[,yvar] ~ data[,xvar], data = data)))
+   res$output$parameterEstimates.total  <- stats::lm(data[,yvar] ~ data[,xvar], data = data)
    
 
   class(res) <- "gemm";
