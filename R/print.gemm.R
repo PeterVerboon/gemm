@@ -12,9 +12,9 @@ print.gemm <- function(x, ..., digits=2) {
   options(digits = digits)
   
   cat("
-      The dependent variable is:     ", (x$input$yvar), "
-      The predictor variable is:     ", (x$input$xvar), "
-      The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
+The dependent variable is:     ", (x$input$yvar), "
+The predictor variable is:     ", (x$input$xvar), "
+The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   
   if(length(x$input$xmmod) > 0) {cat("The moderators for the x-m path(s):",x$input$xmmod,"\n")
   } else {cat("No moderators for the x-m path(s)","\n")}
