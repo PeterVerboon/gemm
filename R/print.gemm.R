@@ -166,7 +166,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
     pander::pander(table9, justify = c("left", rep("right",6))) 
   }
   
-  return(res)
+  invisible(res)
 }
 
 

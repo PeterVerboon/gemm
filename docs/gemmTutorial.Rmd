@@ -26,7 +26,7 @@ keywords          : "moderated mediation R SEM Lavaan"
 
 bibliography      : ["Refs_gemm.bib"]
 
-floatsintext      : yes
+floatsintext      : no
 figurelist        : no
 tablelist         : no
 footnotelist      : no
@@ -108,18 +108,30 @@ result <- gemm(dat = cpbExample,
                xvar = "procJustice", 
                mvars = c("cynicism","trust"),
                yvar = "CPB", 
-               nboot = 500)
+               nboot = 100)
 ```
 
-The result of the analysis is put in the object "result". After running the analysis, the results can be viewed by typing: 
+The result of the analysis is put in the object "result". After running the analysis, the results can be viewed by typing: print(result). 
 
-```{r model1R, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
 
-print(result)
+```{r tables, eval=TRUE, results='asis', echo = FALSE, include = TRUE, warning = T, error=T}
+
+out <- print(result, silence = TRUE)
+
+papaja::apa_table(out$R2 ,placement = "htb", caption = " Estimates of explained variance")
+papaja::apa_table(out$totalEff, placement = "htb",caption = " Estimates of total effect", align = c("l", rep("r", 6)))
+papaja::apa_table(out$aPaths, placement = "htb", caption = " Estimates of a-paths", align = c("l", rep("r", 6)))
+papaja::apa_table(out$bPaths, placement = "htb", caption = " Estimates of b-paths", align = c("l", rep("r", 6)))
+#papaja::apa_table(out$covs, placement = "htb", caption = " Estimates of covariates", align = c("l", rep("r", 6)))
+papaja::apa_table(out$directEff, placement = "htb", caption = " Estimates of direct effect", align = c("l", rep("r", 6)))
+papaja::apa_table(out$indirectEff, placement = "htb", caption = " Estimates of indirect effects", align = c("l", rep("r", 6)))
+papaja::apa_table(out$csES, placement = "htb", caption = " Estimates of completely standardized effect sizes", align = c("l", rep("r", 6)))
+papaja::apa_table(out$ratES, placement = "htb", caption = " Estimates of effect sizes based on ratio indirect to total effect", align = c("l", rep("r", 6)))
 ```
 
-The printed output consists of nine parts. First, the function input is shown. Here you can check whether you have specified the model that you intended to run. Second, the explained variance is shown for the dependent variable and the mediators. For the dependent variable the variance is explained by the predictor, the mediator(s), and whenever they are in the model also by the moderators and covariate(s). For the mediators the variance is explained by the predictor, and when present also by the moderator and covariate(s). 
-The third part shows the total effect, which is simply the result of a regression of the predictor and the dependent variable. The fourth and fifth part show the estimates of the a- and b-paths respectively. The direct effect of the predictor on the dependent variable is part six. Part seven shows the indirect effects for all mediators separately and the total indirect effect. Each row represents an indirect effect through a particular mediator. The last row is the total of all indirect effects. Part eigth and nine show two effect sizes of the indirect effects. Part eight, the completely standardized effect size, and part nine, the effect size based on the ratio between indirect and total effect. The confidence intervals around the estimates have been obtaind by using the bootstrap samples.
+
+The printed output consists of nine tables for a full model with covariates. First, the function input is shown. Here you can check whether you have specified the model that you intended to run. Then, the explained variance is shown in the first table for the dependent variable and the mediators. For the dependent variable the variance is explained by the predictor, the mediator(s), and whenever they are in the model also by the moderators and covariate(s). For the mediators the variance is explained by the predictor, and when present also by the moderator and covariate(s). 
+The second table shows the total effect, which is simply the result of a regression of the predictor and the dependent variable. The third and fourth table show the estimates of the a- and b-paths respectively. When there are covariates in the model, they are given in table five. The direct effect of the predictor on the dependent variable is table six. Table seven shows the indirect effects for all mediators separately and the total indirect effect. Each row represents an indirect effect through a particular mediator. The last row is the total of all indirect effects. Table eigth and nine show two effect sizes of the indirect effects. Table eight, the completely standardized effect size, and table nine, the effect size based on the ratio between indirect and total effect. The confidence intervals around the estimates have been obtaind by using the bootstrap samples. The tables are given at the end of the document.
 
 The results show that procedural justice is negatively associated with CPB (b = -0.73, p < .001). Less perceived procedural justice may "cause" more CPB. The estimates of the a-paths show that procedural justice is negatively associated with cynicism (b = -0.74, p < .001) and positively with trust (b = 1.10, p < .001). The estimates of the b-paths show that trust is negatively associated with CPB (b = -0.28, p < .001) and cynicism positively (b = 0.32, p < .001). 
 The direct effect is also statistically significant (b = -0.18, p = .032). The indirect effect are both significant and negative, for cynicism (b = -0.23, p < .001) and trust (b = -.31, p <.001). The completely standardized effect sizes are respectively b = -0.18 (p <.001) for cynicism and b = -0.24 (p < .001) for trust. And finally the ratio base affect sizes are respectively b = 0.56 (p <.001) for cynicism and b = 0.63 (p < .001) for trust. 
@@ -127,7 +139,7 @@ The direct effect is also statistically significant (b = -0.18, p = .032). The i
 
 In the second example a moderated mediation model is shown with a covariate.
 
-```{r model2, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
+```{r model2, eval=F, echo = TRUE, include = TRUE, warning = FALSE}
 
 result <- gemm(dat = cpbExample, 
                xvar = "procJustice", 
@@ -141,26 +153,29 @@ result <- gemm(dat = cpbExample,
 print(result)
 ```
 
-Here we have moderator ("gender") added to the model. This variable is assumed to moderate the two effects of the two mediators on the dependent variable. This moderator is a dichotomous moderator, in `R` terminology a factor with two levels (here, male and female). The assumption behind this moderator effect is that men are more inclined to show contra-productive behaviour than women. A second moderator is added: "insecure". This variable is expected to moderate the effect of procedural justice on the mediators. We assume that the effect is particularly present among persons who are insecure, becuase they use the information about justice to build their attitudes with respect to trust and cynicism. Fianlly, the variable age is used as covariate for predicting the mediators (cmvars), because we assume that the mediator cynicism may be influenced by age.
+
+We have added the moderator of the a-path ("gender") to the model. This variable is assumed to moderate the two effects of the two mediators on the dependent variable. This moderator is a dichotomous moderator, in `R` terminology a factor with two levels (here, male and female). The assumption behind this moderator effect is that men are more inclined to show contra-productive behaviour than women. A second moderator is added: "insecure". This variable is expected to moderate the effect of procedural justice on the mediators. We assume that the effect is particularly present among persons who are insecure, becuase they use the information about justice to build their attitudes with respect to trust and cynicism. Fianlly, the variable age is used as covariate for predicting the mediators (cmvars), because we assume that the mediator cynicism may be influenced by age.
 
 
-The structure of the printed output is similar to the previous analyses. However, we can ask for plots now, because the model contains a moderator. There actually are three plot types. The first type is the single-path index of moderated mediation (Hayes, 2018, p.425), plotted against the moderator. As explained before, the index of moderated mediation (IMM) is the slope of the line representing the effect of the mediator (c.q. predictor) on the dependent variable (c.q. mediator) that changes when the moderator changes. When there are two mediators in the model there are also two IMMs. A flat horizonal line indicates that the slope does not change as a function of the supposed moderator, in that case there is no moderation. The steeper the line the stronger the moderated mediation effect. For a dichotomous moderator only two points are shown (per mediator) with their 95% confidence interval. The command to obtain the single-path IMM is `plotIMM(result)`. 
+The structure of the printed output is similar to the previous analysis. Because of the moderators in the model, the results for the a- and b-paths now also contain interaction terms. Both interaction terms (procedural justice x insecure) are significant for cynicism (b = -.387, p < .001) and trust (b = -0.157, p < .001), respectively. For the b-path only the cynicism x gender interaction is significant (b -0.811, p < .001). This term actually refers to the mitigating effect of women om the cynicism to CPB association. This is better explained by simple slopes plots later on. Age is a significant covariate for cynicism (b = 0.206, p < .001) and also for trust (b = -0.045, p = 0.050).
 
-```{r model2RIMM, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
+We can ask for plots now, because the model contains at least one moderator. There actually are three plot types. The first type is the single-path index of moderated mediation (Hayes, 2018, p.425), plotted against the moderator. As explained before, the index of moderated mediation (IMM) is the slope of the line representing the effect of the mediator (c.q. predictor) on the dependent variable (c.q. mediator) that changes when the moderator changes. When there are two mediators in the model there are also two IMMs. A flat horizonal line indicates that the slope does not change as a function of the supposed moderator, in that case there is no moderation. The steeper the line the stronger the moderated mediation effect. For a dichotomous moderator only two points are shown (per mediator) with their 95% confidence interval. The command to obtain the single-path IMM is `plotIMM(result)`. 
+
+```{r model2RIMM, eval=F, echo = TRUE, include = TRUE, warning = FALSE}
 plotIMM(result)
 ```
 The IMM for the first mediator (m1) is somewhat larger than for the second (m2). However, for both mediators the IMM hardly changes between the two categories of the moderator.  
 
 The second plot type is the mediated simple slopes plot. A simple slope plot shows the indirect effect of the predictor on the dependent variable through a mediator for usually two characteristic values of the moderator. Each value of the moderator is represented by a separate line. Parallel lines indicate absence of moderation and crossing lines the presence of moderation. The 95% CI interval around each line is indicated by a shaded area. For each mediator a separate subplot is given. 
   
-```{r model2RSS, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
+```{r model2RSS, eval=F, echo = TRUE, include = TRUE, warning = FALSE}
 plotSS(result)
 ```
 These plots show the effect of the predictor on the dependent variable through the mediators m1 and m2, respectively. Because the moderator is a dichotomous variable each plot contains two lines, one for each category of the moderator.
 
 As a final example we illustrate the use of two numerical moderators.
 
-```{r model3, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
+```{r model3, eval=F, echo = TRUE, include = TRUE, warning = FALSE}
 
 result <- gemm(dat = gemmDat, 
                xvar  = "x1", 
@@ -176,13 +191,13 @@ The first plot command provides two plots, for each moderator a separate plot of
 
 The second plot command provides a simple slopes plots, one for each moderator, where each plot is split into subplots for each mediator. The lines represent the effect evaluated at the 16th and 84th percentile of the moderator, as recommended by Hayes(2018). Only for mod1 and mediator m2 there seems moderation, because we can see crossing lines. In the other three cases the lines run parallel to each other, indicating no relevant moderation effects. 
 
-```{r model3SS, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
+```{r model3SS, eval=F, echo = TRUE, include = TRUE, warning = FALSE}
 plotSS(result)
 ```
 
 The `plotIMM3d(result)` command provides 3d-plots showing the double-path IMM for both moderators. Separate plots are given for each mediator. The message is the same as in the previous plots: only the following moderated mediation effect appears to be present: the indirect effect of x1 on y through the second mediator is moderated by mod1. 
 
-```{r model3IMM3d, eval=TRUE, echo = TRUE, include = TRUE, warning = FALSE}
+```{r model3IMM3d, eval=F, echo = TRUE, include = TRUE, warning = FALSE}
 plotIMM3d(result)
 ```
 
