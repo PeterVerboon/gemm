@@ -126,7 +126,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   row.names(table8) <- NULL
   table8[,7] <- c(x$input$mvars, "total")
   table8 <- table8[,c(7,1:6)]
-  names(table8)[1] <- c("through")
+  names(table8)[c(1,2)] <- c("through","est")
   table8[,c(2:7)] <- format(round(table8[,c(2:7)], digits = 3), nsmall = 2)
   pander::pander(table8, justify = c("left", rep("right",6))) 
   cat("\n")
