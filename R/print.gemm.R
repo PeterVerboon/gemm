@@ -94,51 +94,50 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
     pander::pander(table4, justify = c("left", "right", "right", "right","right","right","right"))
   }
   
+ 
+  table5 <- x$output$parameterEstimates.direct
+  row.names(table5) <- NULL
+  table5[,1] <- paste0(x$input$xvar," --> ", x$input$yvar)
+  names(table5) <- c("path",names(table5)[-1])
+  table5[,c(2:7)] <- format(round(table5[,c(2:7)], digits = 3), nsmall = 2)
+  res$directEff <- table5
+  if (!silence) {
+    cat("\n\n")
+    cat("Direct effect (c') ");
+    pander::pander(table5, justify = c("left", "right", "right", "right","right","right","right"))
+  }
+  
+  
+  table6 <- x$output$parameterEstimates.indirect.raw
+  row.names(table6) <- NULL
+  names(table6) <- c("through",names(table6)[-1])
+  table6[,1] <- c(x$input$mvars, "total")
+  table6[,c(2:7)] <- format(round(table6[,c(2:7)], digits = 3), nsmall = 2)
+  res$indirectEff <- table6
+  if (!silence) {
+    cat("\n\n")
+    cat("Indirect effects (a*b) ");
+    pander::pander(table6, justify = c("left", rep("right",6))) 
+  }
+  
   if (!is.null(x$input$cmvars) | !is.null(x$input$cyvars)) {
-     table5 <- x$output$parameterEstimates.covs
-    row.names(table5) <- terms1 <- terms2 <- NULL
-    names(table5) <- c("path",names(table5)[-1])
+    table7 <- x$output$parameterEstimates.covs
+    row.names(table7) <- terms1 <- terms2 <- NULL
+    names(table7) <- c("path",names(table7)[-1])
     if (!is.null(x$input$cyvars)) {
       terms1 <- paste0(x$input$cyvars, " --> ", x$input$yvar) }
     if (!is.null(x$input$cmvars)) {
       terms2 <- paste0(x$input$cmvars, " --> ", x$input$mvars) }
     terms <- c(terms1,terms2)
-    table5[,1] <- terms
-    table5[,c(2:7)] <- format(round(table5[,c(2:7)], digits = 3), nsmall = 2)
-    res$covs <- table5
+    table7[,1] <- terms
+    table7[,c(2:7)] <- format(round(table7[,c(2:7)], digits = 3), nsmall = 2)
+    res$covs <- table7
     if (!silence) {
       cat("\n\n")
       cat("Estimates of covariates");
-      pander::pander(table5, justify = c("left", "right", "right", "right","right","right","right"))
+      pander::pander(table7, justify = c("left", "right", "right", "right","right","right","right"))
     }
   }
-  
-  
-  table6 <- x$output$parameterEstimates.direct
-  row.names(table6) <- NULL
-  table6[,1] <- paste0(x$input$xvar," --> ", x$input$yvar)
-  names(table6) <- c("path",names(table6)[-1])
-  table6[,c(2:7)] <- format(round(table6[,c(2:7)], digits = 3), nsmall = 2)
-  res$directEff <- table6
-  if (!silence) {
-    cat("\n\n")
-    cat("Direct effect (c') ");
-    pander::pander(table6, justify = c("left", "right", "right", "right","right","right","right"))
-  }
-  
-  
-  table7 <- x$output$parameterEstimates.indirect.raw
-  row.names(table7) <- NULL
-  names(table7) <- c("through",names(table7)[-1])
-  table7[,1] <- c(x$input$mvars, "total")
-  table7[,c(2:7)] <- format(round(table7[,c(2:7)], digits = 3), nsmall = 2)
-  res$indirectEff <- table7
-  if (!silence) {
-    cat("\n\n")
-    cat("Indirect effects (a*b) ");
-    pander::pander(table7, justify = c("left", rep("right",6))) 
-  }
-  
   
   table8 <- x$output$parameterEstimates.indirect.es_std
   row.names(table8) <- NULL
