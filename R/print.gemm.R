@@ -97,13 +97,15 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
     table5[,c(2:7)] <- format(round(table5[,c(2:7)], digits = 3), nsmall = 2)
     pander::pander(table5, justify = c("left", "right", "right", "right","right","right","right"))
     cat("\n")
+    res$covs <- table5
   }
-  res$covs <- table5
+  
   
   cat("Direct effect (c') ");
   table6 <- x$output$parameterEstimates.direct
   row.names(table6) <- NULL
   table6[,1] <- paste0(x$input$xvar," --> ", x$input$yvar)
+  names(table6) <- c("path",names(table6)[-1])
   table6[,c(2:7)] <- format(round(table6[,c(2:7)], digits = 3), nsmall = 2)
   pander::pander(table6, justify = c("left", "right", "right", "right","right","right","right"))
   cat("\n")
