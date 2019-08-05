@@ -14,7 +14,7 @@
 #' @param nboot number of bootstrap samples
 #'
 #' @return gemm object
-#' @export
+#' @export gemm
 #'
 #' @examples
 #' data("cpbExample")
