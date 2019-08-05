@@ -87,13 +87,13 @@ prepPlotSS <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
     
     plot_simpleSlopes <- ggplot(plotDat2, aes_string(x=xvar,y=yvar,group= mod, colour=mod)) +
        geom_point() + geom_line() +
-       geom_ribbon(aes(ymin=lwr, ymax=upr),alpha=.3, linetype=0) +
+       geom_ribbon(aes(ymin=plotDat2$lwr, ymax=plotDat2$upr),alpha=.3, linetype=0) +
        ylim(ymin,ymax) +
        theme(plot.title = ggplot2::element_text(lineheight=.4, face="italic")) +
        ggtitle(paste0("Simple slopes in ", path , " path for indirect effect ")) +
        scale_colour_discrete(name  = mod, labels=legendLabel) 
        
-    plot_simpleSlopes <- plot_simpleSlopes + facet_grid(rows=vars(mediator))
+    plot_simpleSlopes <- plot_simpleSlopes + facet_grid(rows=vars(plotDat2$mediator))
   
     print(plot_simpleSlopes)
   

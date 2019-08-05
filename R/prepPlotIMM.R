@@ -91,7 +91,7 @@ prepPlotIMM <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
        xlab(paste0("Moderator: ",mod))
       
       plot_indexOfmediation <- plot_indexOfmediation + 
-        geom_ribbon(aes(ymin=IMM_lwr, ymax=IMM_upr), alpha=.3, linetype=0) 
+        geom_ribbon(aes(ymin=plotData$IMM_lwr, ymax=plotData$IMM_upr), alpha=.3, linetype=0) 
     
       print(plot_indexOfmediation)
   }
@@ -105,7 +105,7 @@ prepPlotIMM <- function(data,xvar,yvar,mod, mvars, parEst, vdichotomous,
     
     plot_indexOfmediation <- ggplot(plotData, aes_string(x=mod,y="IMM",colour = "mediator")) +
       geom_point(aes(colour = mediator), position = pd, size=2) +  
-      geom_errorbar(aes(ymin=IMM_lwr, ymax=IMM_upr), width=0.2, size=0.5, position = pd) +
+      geom_errorbar(aes(ymin=plotData$IMM_lwr, ymax=plotData$IMM_upr), width=0.2, size=0.5, position = pd) +
       coord_cartesian(ylim=c(ymin, ymax)) +
       ggtitle("Index of moderated mediation") +
       xlab(paste0("Moderator: ",mod)) 

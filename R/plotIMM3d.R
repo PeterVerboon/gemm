@@ -71,7 +71,7 @@ plotIMM3d <- function(x, ...) {
        mod <- xmmod
     }
     
-    p <- ggplot(df2, aes(x=x, y=est, colour = as.factor(fac))) + geom_line() +
+    p <- ggplot(df2, aes(x=x, y=df2$est, colour = as.factor(df2$fac))) + geom_line() +
          ylim(lwzlim,upzlim) +
          xlab(paste0("Numerical moderator: ", mod)) +
          ylab(paste0("IMM")) +
