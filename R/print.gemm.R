@@ -44,7 +44,7 @@ The model contains", length(x$input$mvars),"mediators:",x$input$mvars,"\n")
   
   lmout <- x$output$parameterEstimates.total
   a <- summary(lmout)$coefficients
-  b <- confint(lmout)
+  b <- stats::confint(lmout)
   a <- as.data.frame(cbind(a,b))
   row.names(a) <- NULL
   terms <- c("intercept", paste0(x$input$xvar, " --> ", x$input$yvar))
